@@ -14,6 +14,8 @@ import './help.css';
 import '../App.css';
 import moment from 'moment';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
+import Homebar from "./Homebar";
+import Footer from "./Footer";
 
 function profileRegister(myprofile, action) {
     const dataProfile=JSON.parse(localStorage.getItem("myProfile"))
@@ -59,7 +61,7 @@ function profileRegister(myprofile, action) {
   }
 
 const Profile=()=>{
-    const paperStyle={padding :'20px 20px',width:800, height:580, margin:"30px auto"}
+    const paperStyle={padding :'20px 20px',width:800, height:600, margin:"30px auto"}
     const headStyle={margin:0,fontFamily:'san-serif',color:'blue'}
     const btnstyle = { margin:'10px auto',display:'flex',justifyContent:'center',alignItems:'center', width:'30%',height:'20%'}
     const imgstyle={height:100,width:180}
@@ -123,7 +125,7 @@ const Profile=()=>{
             console.log(response.status)
             if (res === 200) {
                 alert("Profile Updated")
-                history.push('/home');
+                history.push('/apphome');
             }
 
         })
@@ -155,6 +157,7 @@ const Profile=()=>{
         
     return(
         <Grid>
+        <Homebar/>
         <Paper elevation={20} style={paperStyle}>
             <Grid align='center'>
             <div>
@@ -200,8 +203,8 @@ const Profile=()=>{
                         
                         
                         <Grid item xs={6}>
-                        <DatePickerComponent name="dob" value={dob} placerholder="Enter Date of Birth" format="yyyy/MM/dd" 
-                        
+                        <DatePickerComponent name="dob" value={dob} format="yyyy/MM/dd" 
+                        label="Enter Date of Birth" width="180px" required
                         onChange={(e) =>
                           {console.log(e.target.value)
                           setMyprofile({
@@ -276,6 +279,7 @@ const Profile=()=>{
             </Formik>
            
         </Paper>
+        <Footer/>
     </Grid>
 )
 
