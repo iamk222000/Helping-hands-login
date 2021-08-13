@@ -1,5 +1,4 @@
-// mobile_number: Yup. string(). matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[ 0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-            //  'Enter a valid mobile number').required("Required"),
+
 import React,{ useState, useEffect, useReducer } from 'react';
 import { useHistory } from 'react-router-dom';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
@@ -145,7 +144,7 @@ const Profile=()=>{
         
         const validationSchema = Yup.object().shape({
             
-            mobile_number: Yup. string(). matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[ 0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+             mobile_number: Yup. string(). matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[ 0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
              'Enter a valid mobile number').required("Required"),
              about: Yup.string().required("Required"),
              //dob: Yup.date().required("Required"),
