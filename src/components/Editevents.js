@@ -6,6 +6,8 @@ import {Formik, Form, Field, ErrorMesage} from 'formik';
 import icon from './HH-icon.ico';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
+import Homebar from "./Homebar";
+import Footer from './Footer';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker, } from '@material-ui/pickers';
 
 //import Dropdown from 'react-dropdown';
@@ -90,16 +92,7 @@ const EditEvents = (props) => {
 
     return (
         <Box >
-            <AppBar position="sticky">
-                <Toolbar>
-                    <IconButton align='center' edge="start" className={classes.homeButton} color="inherit" aria-label="Home">
-                        <img src={icon} style={iconStyle} alt='HH' />
-                    </IconButton>
-                    <Typography>
-                        <b>Helping Hands</b>
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <Homebar/>
 
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid style={gridStyle} >
@@ -206,6 +199,7 @@ const EditEvents = (props) => {
                     </Paper>
                 </Grid>
             </MuiPickersUtilsProvider>
+            <Footer/>
         </Box>
     )
 }

@@ -90,11 +90,11 @@ const Weekend = (props) => {
     return(
         <Box>
             <Homebar/>
-      <Box mt={1} mb={3} align="center">
-        <img src={imgl} alt="logo" width='200' height='150' />
-      </Box>
+      
       <Box align="center">
-        <Typography variant='h5' style={headStyle}><b> Weekend Events</b></Typography>
+      <center>
+      <Typography variant='h5' style={{color:"#2E2EFE"}} >Weekend Events</Typography>
+      </center>
       </Box>
       <Box m={5}>
         
@@ -106,9 +106,7 @@ const Weekend = (props) => {
                     <Card style={{minwidth:200}} className={classes.card}>
                           <CardContent>
                           <Grid container spacing={5}>
-                            <Grid item xs={6}  style={gridStyle}>
-                            <img src={wkndevnt1}/>
-                            </Grid>
+                            
                             <Grid item xs={6} style={gridStyle}>
                                <br></br>
                                 <b>{post.name}</b><br></br>
@@ -117,8 +115,10 @@ const Weekend = (props) => {
                                 <b>Date : </b>  {moment(post.start_time).format('MMMM Do YYYY')}<br></br>
                                <b>Start Time : </b> {moment(post.start_time).format('h:mm a')}<br></br>
                                 <b>End Time : </b>  {moment(post.end_time).format('h:mm a')}<br></br>
-                                <Button className={classes.button} color='primary' variant='contained' onClick={e=>handleRegistration(post.event_id,e)} >Register</Button>
-                            </Grid>
+                                <Button type='submit'  variant="contained" disabled={props.isSubmitting}
+                                className={classes.button} onClick={e=>handleRegistration(post.event_id,e)} >{props.isSubmitting ? "Loading" : "Register"}</Button>
+                                
+                                </Grid>
                             </Grid>
                           </CardContent>
                     </Card>

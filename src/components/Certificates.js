@@ -30,7 +30,8 @@ import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import HHicon from './logo.jpg';
-
+import Homebar from "./Homebar";
+import Footer from './Footer';
 
 
 const imgstyle = {
@@ -208,104 +209,11 @@ const handleRegistration=(eventid,e)=>{
       
        
 
-<div className={classes.root}>
-        {/*<FormGroup>
-        <FormControlLabel
-          control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
-          label={auth ? 'Logout' : 'Login'}
-        />
-      </FormGroup>*/}
-        <CssBaseline />
-        <ElevationScroll>
-          <AppBar>
 
-            <Toolbar>
-              <Typography variant="h6" className={classes.title}>
-                <img src={HHicon} alt="logo" height="50" width="50" align="center" />
-                &nbsp;&nbsp;Helping Hands
-              </Typography>
-              {auth && (
-                <div>
-                  {/* <IconButton
-                aria-label="menu"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-               <ArrowDropDownIcon></ArrowDropDownIcon>
-              </IconButton> */}
-
-                  <Tooltip title="Go to Home page">
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Home">
-                      <HomeIcon />
-                    </IconButton></Tooltip>
-                  <Button onClick={handleMenu} startIcon={<AccountCircleIcon />} endIcon={<ArrowDropDownIcon />} size="large" style={{ fontSize: 15, textTransform: 'none', color: 'white' }} >
-                    {/* <ListItemText>*/}
-                    <Typography >&nbsp;&nbsp;dataInfo.firstname&nbsp;dataInfo.lastname&nbsp;</Typography> </Button>
-                  <StyledMenu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    // anchorOrigin={{
-                    //   vertical: 'top',
-                    //   horizontal: 'right',
-                    // }}
-                    // keepMounted
-                    // transformOrigin={{
-                    //   vertical: 'top',
-                    //   horizontal: 'right',
-                    // }}
-                    // open={open}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                  >
-                    <MenuItem>
-                      <List>
-                        <ListItem alignItems='center'>
-                          <ListItemIcon ><PersonIcon /></ListItemIcon>
-                          <ListItemText>
-                            Profile
-                          </ListItemText>
-                        </ListItem>
-                      </List>
-                    </MenuItem>
-                    <MenuItem>
-                      <List>
-                        <ListItem alignItems='center'>
-                          <ListItemIcon ><DashboardIcon /></ListItemIcon>
-                          <ListItemText>
-                            Dashboard
-                          </ListItemText>
-                        </ListItem>
-                      </List>
-                    </MenuItem>
-                    {/*<MenuItem onClick={handleClose}>{role===admin?<Admincomp/>:null}</MenuItem>
-                <MenuItem onClick={handleClose}>{role===leader?<Leadercomp/>:null}</MenuItem>*/}
-                   
-                    <MenuItem>
-                      <List>
-                        <ListItem alignItems='center'>
-                          <ListItemIcon ><ExitToAppIcon /></ListItemIcon>
-                          <ListItemText>
-                            Signout
-                          </ListItemText>
-                        </ListItem>
-                      </List>
-                    </MenuItem>
-                  </StyledMenu>
-                </div>
-              )}
-            </Toolbar>
-          </AppBar>
-          </ElevationScroll>
-      </div>
-
-      
-	<br/>
 
 	
     <Box m={5}>
+    <Homebar/>
       <br/>
     <center> <h2 color="primary">Certificates</h2> </center>
         <Grid container  spacing={6} >
@@ -348,6 +256,7 @@ const handleRegistration=(eventid,e)=>{
   
      
   </BottomNavigation>
+  <Footer/>
 </Box>
 
       
@@ -355,27 +264,3 @@ const handleRegistration=(eventid,e)=>{
 
   )
 }
-/*<Dialog
-       open={open}
-        onClose={handleclose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-<DialogTitle id="alert-dialog-title">{"Send certificates to participants?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            By clicking on <b>yes</b> the certificates will be sent to respective mail ids of the participants 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={axios.post('http://localhost:8081/account/leader/sendCertificates/{option.event_id}')} color="primary" onClose={handleClose}>
-          {option.event_id}
-          </Button>
-          <Button onClick={handleclose} color="primary" autoFocus>
-            No
-          </Button>
-        </DialogActions>
-      </Dialog>*/
-
-     /* onClick={()=>
-        {axios.post(`http://localhost:8081/account/leader/sendCertificates/${option.event_id}`);this.disabled=true}}>*/

@@ -1,6 +1,7 @@
 import React from "react";
 import Home from "./home"
 import Homebar from "./Homebar";
+import Footer from './Footer';
 function apphome (){
  
     return (
@@ -8,6 +9,7 @@ function apphome (){
     <div>
     <Homebar/>
     <Home/>
+    <Footer/>
     </div>
      
    

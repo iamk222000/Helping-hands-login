@@ -122,9 +122,7 @@ export default function ButtonAppBar() {
     <Box  mr={1}> 
     <Homebar/>
       
-    <Box mt={3} align="center">
-        <img src={logo} alt="logo" width='200' height='150' />
-      </Box>
+    
 
 {/* <AppBar position="static">
   <Toolbar>
@@ -141,10 +139,10 @@ export default function ButtonAppBar() {
 
       
 	<br/>
-
+  
 	<center> 
         {/* <h2 color="primary">Oppurtunities Participated</h2> */}
-        <Typography variant='h5' style={{color:"#6200EE"}} >Oppurtunities Registered</Typography>
+        <Typography variant='h5' style={{color:"#2E2EFE"}} >Opportunities Registered</Typography>
          </center>
     <Box m={5}>
         

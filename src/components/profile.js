@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 import 'date-fns';
 //import DateFnsUtils from '@date-io/date-fns';
-import { Grid, Paper, TextField, Button } from '@material-ui/core';
+import { Grid, Paper, TextField, Button, Typography } from '@material-ui/core';
 import imgl from './logo.jpg';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -70,7 +70,7 @@ function profileRegister(myprofile, action) {
   ))
 
 const Profile=()=>{
-    const paperStyle={padding :'20px 20px',width:800, height:600, margin:"30px auto"}
+    const paperStyle={padding :'20px 20px',width:800, height:500, margin:"0px auto"}
     const headStyle={margin:0,fontFamily:'san-serif',color:'blue'}
     const btnstyle = { margin:'10px auto',display:'flex',justifyContent:'center',alignItems:'center', width:'30%',height:'20%'}
     const imgstyle={height:100,width:180}
@@ -179,7 +179,8 @@ const Profile=()=>{
             
              mobile_number: Yup.string() 
                //.matches(/^\+(?:[0-9] ?){6,14}[0-9]$/,"Enter a valid number").required("Required"),
-            .matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+            //.matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+            .matches(/^((\\([7-9]{1}\\)[ \\-]*)|([0-9]{3})[ \\-]*)*?[0-9]{3}?[ \\-]*[0-9]{3}?$/
            
               ,"Enter valid phone number") .required("Required"),
              about: Yup.string().required("Required"),
@@ -199,8 +200,13 @@ const Profile=()=>{
             <img src={imgl} style={imgstyle} alt=""/>
             
             </div> */}
-                <h2 style={headStyle}>Profile</h2>
+            <center> 
+       
+            <Typography variant='h5' style={{color:"#2E2EFE"}} >Profile</Typography>
+                   </center>
             </Grid>
+            <br></br>
+            <br></br>
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
                 {(props) => (
                     <Form>
@@ -318,6 +324,7 @@ const Profile=()=>{
             </Formik>
            
         </Paper>
+        <Footer/>
         <Snackbar
         className={classes.root}
         anchorOrigin={{
@@ -337,7 +344,7 @@ const Profile=()=>{
           </Fragment>
         }
         />    
-        <Footer/>
+        
     </Grid>
 )
 

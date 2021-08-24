@@ -137,16 +137,14 @@ const useStyles = makeStyles((theme) => ({
   </Toolbar>
 </AppBar> */}
 
-      <Box mt={3} align="center">
-        <img src={logo} alt="logo" width='200' height='150' />
-      </Box>
+      
 
 	<br/>
 
 	{/* <center><h2>Welcome {dataInfo.firstname},</h2></center> */}
   <center> 
        
-        <Typography variant='h5' style={{color:"#6200EE"}} >DashBoard</Typography>
+  <Typography variant='h5' style={{color:"#2E2EFE"}} >Dashboard</Typography>
          </center>
 	
 	  <center>

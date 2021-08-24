@@ -63,12 +63,12 @@ const PastEvents = (props) => {
     return(
         <Box>
             <Homebar/>
-            <Box mt={1} mb={3} align="center">
-                <img src={logo} style={logoStyle} alt="Logo" />
-            </Box>
+            
 
             <Box align="center">
-        <Typography variant='h6' style={headStyle}><b>Past Events</b></Typography>
+            <center>
+            <Typography variant='h5' style={{color:"#2E2EFE"}} >Past Events</Typography>
+            </center>
       </Box>
 
             <Box m={5}>
@@ -92,10 +92,6 @@ const PastEvents = (props) => {
                                                 <br></br>
                                                 Date: {moment(post.start_time).format('MMMM Do YYYY')}
                                                 <br></br>
-                                                Start-Time: {moment(post.start_time).format('h:mm a')}
-                                                <br></br>
-                                                End-Time: {moment(post.end_time).format('h:mm a')}
-                                                <br></br>
                                                 About: {post.description}
                                                 <br></br>
                                             </p>
@@ -107,11 +103,8 @@ const PastEvents = (props) => {
                         </Grid>
                     ))}
                 </Grid>
-                <br></br>
-                <br></br>
-                <Grid align="right">
-                    <Button style={btnStyle} color='primary' variant='contained' onClick={Home}>Go To Home Page</Button>
-                </Grid>
+               <br></br>
+                
             </Box>
             <Footer/>
         </Box>

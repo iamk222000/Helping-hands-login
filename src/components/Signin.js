@@ -164,7 +164,7 @@ const Login = ({ handleChange }) => {
         <img src={logo} alt="logo" width='200' height='150'/>
     </Box>
     
-    <Box  ml={40} mt={4} align='center'>
+    <Box  ml={40}  mr={40} mt={4} align='center'>
         <Grid container  spacing={3} align="center">
             <Grid item xs={12} sm={6} md={6}>
                 <Card style={{minwidth:200}} className={classes.grid}>
