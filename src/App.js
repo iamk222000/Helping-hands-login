@@ -17,12 +17,17 @@ import Addevents from './components/Addevents';
 import Certificates from './components/Certificates';
 import Editevents from './components/Editevents';
 import Snackbar from './components/Snackbar';
+import Signin from './components/Signin';
+import Signup from './components/Signup';
+import Chart from './components/Chart';
+import Pastupload from './components/Pastupload';
+import LeaderRR from './components/LeaderRR'
 function App() {
   return (
     <Router>
     <Switch>
 	  <Route exact path='/Register'  component={Register}/>
-		<Route exact path='/' component={login} />
+		<Route exact path='/login' component={login} />
     <Route exact path='/home'  component={home}/>
     <Route exact path='/Homebar'  component={Homebar}/>
     <Route exact path='/apphome'  component={apphome}/>
@@ -39,6 +44,11 @@ function App() {
     <Route exact path='/Certificates' component={Certificates}/>
     <Route exact path='/Editevents' component={Editevents}/>
     <Route exact path='/Snackbar' component={Snackbar}/>
+    <Route exact path='/' component={Signin}/>
+    <Route exact path='/Signup' component={Signup}/>
+    <Route exact path='/Chart' component={Chart}/>
+    <Route exact path='/Pastupload' component={Pastupload}/>
+    <Route exact path='/LeaderRR' component={LeaderRR}/>
    </Switch>
    </Router>
      )
