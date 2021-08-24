@@ -11,9 +11,9 @@ import CloseIcon from '@material-ui/icons/Close';
 
 
 const Register = () => {
-    const paperStyle = { padding: '30px 20px', width: 300, margin: '40px auto' }
+    const paperStyle = { padding: '30px 20px', width: 300, margin: '20px auto' }
     const headStyle = { margin: 0, fontFamily: 'san-serif', color: 'blue' }
-    const marginTop = { margin: 15 }
+    const marginTop = { margin:'8px 0' }
     const formStyle = { textAlign: 'center' }
     const [success,setSuccess]=useState(false);
     const [mesg,setMesg]=useState('');
@@ -142,15 +142,19 @@ const Register = () => {
                                 value={props.values.password} onChange={props.handleChange} name='password' helperText={<ErrorMessage name='password' />} />
                             <Field as={TextField} fullWidth label='Confirm Password'type='password' required error={props.errors.confirmpassword && props.touched.confirmpassword}
                                 value={props.values.confirmpassword} onChange={props.handleChange} name='confirmpassword' helperText={<ErrorMessage name='confirmpassword' />} />
-                            <Button type='submit' variant='contained' color='primary' style={marginTop} align='center'>Register</Button>
+                            {/* <Button type='submit' variant='contained' color='primary' style={marginTop} align='center'>Register</Button> */}
+                            
+                            <Button type='submit' color='primary' variant="contained" disabled={props.isSubmitting}
+                                style={marginTop} fullWidth>{props.isSubmitting ? "Loading" : "Register"}</Button>
+
                         </Form>
                     )}
                 </Formik>
             </Paper>
             <Snackbar
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: 'top',
+          horizontal: 'right',
         }}
         open={open}
         autoHideDuration={6000}

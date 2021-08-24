@@ -1,30 +1,31 @@
-import React from 'react';
+import {React,useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import { Grid, Paper, TextField, Button, Typography, Link ,Snackbar,Iconbutton} from '@material-ui/core'
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import imgl from './Helping_hands.jpeg';
+import { Grid, Paper, TextField, Button, Typography, Link } from '@material-ui/core'
+//import imgl from './Helping_hands.jpeg';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios';
-import {Profile} from './profile.js';
 //import home from './home';
-
+import logo from './logo.jpg';
+import Snack from './Snackbar';
 
 
 const Login = ({ handleChange }) => {
 
-    const paperStyle={padding :'30px 20px',width:300, margin:"80px auto"}
+    const paperStyle={padding :'30px 20px',width:300, margin:"30px auto"}
     const headStyle={margin:0,fontFamily:'san-serif',color:'blue'}
     const btnstyle = { margin: '8px 0' }
     const imgstyle={height:100,width:180}
+    //  const [success,setSuccess]=useState(false);
+    // const [mesg,setMesg]=useState('');
+    const [notify,setNotify]=useState({isOpen:false,mesg:''});
     const initialValues = {
         email: '',
         password: '',
         remember: false
     }
     const validationSchema = Yup.object().shape({
-        email: Yup.string().email('please enter valid email').required("Required"),
+        email: Yup.string().email("Enter valid email").required("Required"),
         password: Yup.string().required("Required")
     })
     let history = useHistory();
@@ -38,39 +39,44 @@ const Login = ({ handleChange }) => {
         axios.post("http://localhost:8081/account/login", user)
         .then((response) => {
             var res = response.status;
-           const jwt=response.data
-           localStorage.setItem('myInfo',JSON.stringify(jwt))
-           const dataInfo=JSON.parse(localStorage.getItem("myInfo"))
-           console.log(dataInfo.email)
-            console.log(response)
-            console.log(response.data.role)
             console.log(response.data)
-
-            
-            
             console.log(response.status)
             if (res === 200) {
-                
+                const jwt=response.data
+                localStorage.setItem('myInfo',JSON.stringify(jwt));
+                const dataInfo=JSON.parse(localStorage.getItem("myInfo"))
+                console.log(dataInfo.email)
                 history.push('/apphome');
             }
 
         })
         .catch((error) => {
             if (error.response.status === 403) {
-                console.log(error.response.data.message);
-                alert("Invalid email or Password ")
-
+                console.log(error.response.data);
+                //setSuccess(true);
+                // alert("Invalid email or Password ")
+                // 
+                setNotify({
+                    isOpen:true,
+                    mesg:"Invalid Email or password"
+                })
                 props.resetForm()
             }
-            else
-                alert("Something went wrong")
+            else{
+                setNotify({
+                    isOpen:true,
+                    mesg:"Something went wrong"
+                })
+                // alert("Something went wrong")
+            //  setSuccess(true);
+            //  setMesg("Something went wrong!");
             console.log(error)
-        });
+        }});
         
-          
+        //   setSuccess(false);
           
     }
-        
+            
     
 
       
@@ -80,7 +86,7 @@ const Login = ({ handleChange }) => {
             <Paper elevation={20} style={paperStyle}>
                 <Grid align='center'>
                 <div>
-                <img src={imgl} style={imgstyle} alt=""/>
+                <img src={logo} style={imgstyle} alt=""/>
                 
                 </div>
                     <h2 style={headStyle}>Login</h2>
@@ -88,22 +94,14 @@ const Login = ({ handleChange }) => {
                 <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                     {(props) => (
                         <Form>
-                            <Field as={TextField} label='Email Id' name="email"
-                                placeholder='Enter Email Id' fullWidth required
-                                helperText={<ErrorMessage name="email" />}
+                            <Field as={TextField} label='Email Id' name="email" value={props.values.email}
+                                placeholder='Enter Email Id' fullWidth required error={props.errors.email && props.touched.email}
+                                helperText={<ErrorMessage name="email" /> } onChange={props.handleChange}
                             />
-                            <Field as={TextField} label='Password' name="password"
-                                placeholder='Enter password' type='password' fullWidth required
-                                helperText={<ErrorMessage name="password" />} />
-                            <Field as={FormControlLabel}
-                                name='remember'
-                                control={
-                                    <Checkbox
-                                        color="primary"
-                                    />
-                                }
-                                label="Remember me"
-                            />
+                            <Field as={TextField} label='Password' name="password" error={props.errors.password && props.touched.password}
+                                placeholder='Enter password' type='password' fullWidth required value={props.values.password}
+                                helperText={<ErrorMessage name="password" />} onChange={props.handleChange}/>
+                            
                             <Button type='submit' color='primary' variant="contained" disabled={props.isSubmitting}
                                 style={btnstyle} fullWidth>{props.isSubmitting ? "Loading" : "Login"}</Button>
 
@@ -116,11 +114,18 @@ const Login = ({ handleChange }) => {
                 </Link>
                 </Typography>
                 <Typography > Do you have an account ?
-                     <Link href="Register" onClick={() => handleChange("event", 1)} >
+                     {/*<Link href="Register" onClick={() => handleChange("event", 1)} >
                         Sign Up
-                </Link>
+                            </Link>*/}
+                <a href="Register">Signup</a>
                 </Typography>
             </Paper>
+            {/* {success ?<Snack mesg={mesg}/>:''} */}
+            <Snack
+              notify={notify}
+              setNotify={setNotify}
+              />
+           
         </Grid>
     )
 }

@@ -7,7 +7,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import axios from 'axios';
 import { deepPurple } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-
+import Snack from './Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   purple: {
@@ -25,11 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Reguserpg = (props) => {
   const classes = useStyles();
-  // const cardStyle={padding :'20px 20px',width:500, height:'auto', margin:"30px auto"}
-  //const headStyle = { fontFamily: 'serif', color: 'blue' }
-  // const btnStyle = {margin:'8px 0' }
-  // const logoStyle = {height:120,width:180}
-
+  const [notify,setNotify]=useState({isOpen:false,mesg:''});
   const [user, setUser] = useState([])
   const [count, setCount] = useState()
   const eventn = JSON.parse(localStorage.getItem("eventName"))
@@ -52,12 +48,19 @@ const Reguserpg = (props) => {
     axios.post(`http://localhost:8081/account/admin/sendReminders/${eventn}`)
       .then(res => {
         if (res.status === 200) {
-          alert("Remainders sent successfully")
+          // alert("Remainders sent successfully")
+          setNotify({
+                    isOpen:true,
+                    mesg:"Remainders sent successfully!"
+                })
         }
 
       })
       .catch(err => {
-        alert(err)
+        setNotify({
+          isOpen:true,
+          mesg:"Something went wrong!"
+      })
 
       })
     // alert("senting mail")
@@ -119,6 +122,10 @@ const Reguserpg = (props) => {
         </Grid>
         {/* </div>
         </div> */}
+        <Snack
+              notify={notify}
+              setNotify={setNotify}
+              />
       </Box><Box mt={20}>
       <Footer /></Box>
       </Grid>

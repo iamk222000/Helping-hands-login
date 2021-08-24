@@ -1,314 +1,353 @@
-import React, { useEffect } from 'react';
-import { Grid, Typography,Button } from '@material-ui/core';
-import Homebar from "./Homebar";
-import Footer from './Footer';
-import Card from '@material-ui/core/Card';
+import React,{ useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CardActionArea from '@material-ui/core/CardActionArea';
-//import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-//import CardMedia from '@material-ui/core/CardMedia';
-import Box from '@material-ui/core/Box';
-import logo from './logo.jpeg';
-import explore from './explore.jpeg';
-import {Component} from 'react';
-import opp from './opp.jpeg';
 import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
 import Toolbar from '@material-ui/core/Toolbar';
-import { positions } from '@material-ui/system';
+import Card from '@material-ui/core/Card';
+import moment from 'moment';
+import {Grid} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import YouTubeIcon from '@material-ui/icons/YouTube';
-import FacebookIcon from '@material-ui/icons/Facebook';
+import {Route, useHistory } from 'react-router-dom';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import axios from 'axios';
+import CardContent from '@material-ui/core/CardContent';
+import {useState} from 'react';
+import { IconButton, Box, Tooltip, Button } from '@material-ui/core';
+import PersonIcon from '@material-ui/icons/Person';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import axios from 'axios';
-import {useState} from 'react';
-import {Route, useHistory } from 'react-router-dom';
-import { SettingsCellOutlined } from '@material-ui/icons';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {Formik, Form} from 'formik';
-import moment from 'moment';
-import { blue } from '@material-ui/core/colors';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ArrowForwardSharpIcon from '@material-ui/icons/ArrowForwardSharp';
-import SecurityIcon from '@material-ui/icons/Security';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import HomeIcon from '@material-ui/icons/Home';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import List from '@material-ui/core/List';
+import PropTypes from 'prop-types';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import HHicon from './logo.jpg';
+
+
 
 const imgstyle = {
   margin: '10px 60px'
 }
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    minwidth:200,
+    flexGrow: 1,
     
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(5),
   },
-  homeButton: {
-    marginLeft: theme.spacing(158),
+  title: {
+    flexGrow: 1,
+    textAlign: 'left',
   },
-  leaderButton: {
-    marginLeft: theme.spacing(160),
-  },
-  media: {
-    height: 140,
-    /*minwidth:200,
-    alignItems:'center'*/
-    
-  }
 }));
+
+function ElevationScroll(props) {
+  const { children, window } = props;
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+    target: window ? window() : undefined,
+  });
+
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
+
+ElevationScroll.propTypes = {
+  children: PropTypes.element.isRequired,
+  window: PropTypes.func,
+};
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    // keepMounted
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
 
 
 
 	export default function ButtonAppBar() {
 
-    /* const dataInfo=JSON.parse(localStorage.getItem("myInfo"))
-      const id=dataInfo.id*/
+  const [auth] = React.useState(true);
 
-
-      const [event, setEvent] = useState([]);
-     
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const [value, setValue] = React.useState(0);
+  const [pevent, setPevent] = useState([]);
+  const dataInfo=JSON.parse(localStorage.getItem("myInfo"))
+  
+  
       
- /*    useEffect(()=>{
-     
-      {
-       
-      axios.get(`http://localhost:8081/account/events/getEventParticipated/12`)
-     .then((response) => {
-     
-      setEvent(response.data.events)
-      
-      })
-    };
-  }, [])*/
- 
-      
-      
-
-   
+  useEffect(()=>{
+  
+   {
     
+   axios.get('http://localhost:8081/account/events/pastEvents')
+  .then((response) => {
+  
+   
+   console.log(response.data)
+   var id=response.data[0].event_id;
+   
+   setPevent(response.data)
+  
+   })
+ };
+}, [])
       
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [open, setOpen] = React.useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
  
-
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleclose = () => {
+    setOpen(false);
+  };
+ 
   const handleClose = () => {
     setAnchorEl(null);};
+
 
  /*   
     let history = useHistory();
   const home = () => {
    
     history.push('/home');
-
   };
   let history = useHistory();
   const login = () => {
     setAnchorEl(null);
     history.push('/login');
-
   };
 */
 
+
+
 const history = useHistory();
-const [open, setOpen] = React.useState(false);
-const handleClickOpen = () => {
-  setOpen(true);
+const [success,setSuccess]=useState(false);
+const [mesg,setMesg]=useState('');
+
+
+
+const handleRegistration=(eventid,e)=>{
+  
+
+  axios.post(`http://localhost:8081/account/leader/sendCertificates/${eventid}`)
+  .then((response) => {
+      var res=response.status
+      console.log(response)
+      console.log(response.status)
+      if (res === 200) {
+          setSuccess(true);
+          setMesg(response.data.message);
+         alert("Certificate Sent Successfully!")
+      }
+  })
+  .catch((error) => {
+      if (error.response.status === 400) {
+          // console.log(error.response.data.message);
+          // alert("Already registered ")
+          // setSuccess(false);
+          setSuccess(true);
+          setMesg(error.response.data.message);
+
+          
+      }
+      else
+      // setSuccess(false);
+      console.log(error)
+      setSuccess(true);
+      setMesg(error);
+
+     
+  });
+  // setSuccess(false);
+  
 };
 
-const handleclose = () => {
-  setOpen(false);
-};
 
   return (
 
     
-    <Box  mr={1}> 
+    <Box  mb={10}> 
 
-      <Homebar/>
+      
+       
+
+<div className={classes.root}>
+        {/*<FormGroup>
+        <FormControlLabel
+          control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
+          label={auth ? 'Logout' : 'Login'}
+        />
+      </FormGroup>*/}
+        <CssBaseline />
+        <ElevationScroll>
+          <AppBar>
+
+            <Toolbar>
+              <Typography variant="h6" className={classes.title}>
+                <img src={HHicon} alt="logo" height="50" width="50" align="center" />
+                &nbsp;&nbsp;Helping Hands
+              </Typography>
+              {auth && (
+                <div>
+                  {/* <IconButton
+                aria-label="menu"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+               <ArrowDropDownIcon></ArrowDropDownIcon>
+              </IconButton> */}
+
+                  <Tooltip title="Go to Home page">
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Home">
+                      <HomeIcon />
+                    </IconButton></Tooltip>
+                  <Button onClick={handleMenu} startIcon={<AccountCircleIcon />} endIcon={<ArrowDropDownIcon />} size="large" style={{ fontSize: 15, textTransform: 'none', color: 'white' }} >
+                    {/* <ListItemText>*/}
+                    <Typography >&nbsp;&nbsp;dataInfo.firstname&nbsp;dataInfo.lastname&nbsp;</Typography> </Button>
+                  <StyledMenu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    // anchorOrigin={{
+                    //   vertical: 'top',
+                    //   horizontal: 'right',
+                    // }}
+                    // keepMounted
+                    // transformOrigin={{
+                    //   vertical: 'top',
+                    //   horizontal: 'right',
+                    // }}
+                    // open={open}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem>
+                      <List>
+                        <ListItem alignItems='center'>
+                          <ListItemIcon ><PersonIcon /></ListItemIcon>
+                          <ListItemText>
+                            Profile
+                          </ListItemText>
+                        </ListItem>
+                      </List>
+                    </MenuItem>
+                    <MenuItem>
+                      <List>
+                        <ListItem alignItems='center'>
+                          <ListItemIcon ><DashboardIcon /></ListItemIcon>
+                          <ListItemText>
+                            Dashboard
+                          </ListItemText>
+                        </ListItem>
+                      </List>
+                    </MenuItem>
+                    {/*<MenuItem onClick={handleClose}>{role===admin?<Admincomp/>:null}</MenuItem>
+                <MenuItem onClick={handleClose}>{role===leader?<Leadercomp/>:null}</MenuItem>*/}
+                   
+                    <MenuItem>
+                      <List>
+                        <ListItem alignItems='center'>
+                          <ListItemIcon ><ExitToAppIcon /></ListItemIcon>
+                          <ListItemText>
+                            Signout
+                          </ListItemText>
+                        </ListItem>
+                      </List>
+                    </MenuItem>
+                  </StyledMenu>
+                </div>
+              )}
+            </Toolbar>
+          </AppBar>
+          </ElevationScroll>
+      </div>
+
+      
 	<br/>
 
-	<center> <h2 color="primary">Certificate for events</h2> </center>
+	
     <Box m={5}>
-        
+      <br/>
+    <center> <h2 color="primary">Certificates</h2> </center>
         <Grid container  spacing={6} >
          
-          
+             
+                {pevent.map((option) => (
                  
                     <Grid item xs={12} sm={6} md={6}>
                       <Card style={{minwidth:200}}>
                       <CardContent style={{backgroundColor:"#D6EAF8"}}>
-                      <center><b>ANIMAL SHELTER</b><br/><br/></center>
-                      <b>No:of participants: </b>&nbsp;&nbsp;<b>2</b><br></br>
-                      <b>Participant Names: </b>&nbsp;&nbsp;<b>Nikhitha Deore, Roopali Sharma</b><br></br><br/>
-                      <Button variant="contained" color="primary" onClick={handleClickOpen}> Send Certificates </Button>
-
-
-                      <Dialog
-       open={open}
-        onClose={handleclose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-<DialogTitle id="alert-dialog-title">{"Send certificates to participants?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            By clicking on <b>yes</b> the certificates will be sent to respective mail ids of the participants 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleclose} color="primary">
-            Yes
-          </Button>
-          <Button onClick={handleclose} color="primary" autoFocus>
-            No
-          </Button>
-        </DialogActions>
-
-      </Dialog>
-
-
-                      </CardContent></Card></Grid>
-                   
-               
-                      <Grid item xs={12} sm={6} md={6}>
-                      <Card style={{minwidth:200}}>
-                      <CardContent style={{backgroundColor:"#D6EAF8"}}>
+                      <center><b>{option.name}</b><br/><br/></center>
+                     
+                    
                       
-                      <center><b>NGO WEBINARS</b> <br/><br/> </center>
-                      
-                      <b>No:of participants: </b>&nbsp;&nbsp;<b>3</b><br></br>
-                      <b>Participant Names: </b>&nbsp;&nbsp;<b>Sneha Tagore, Diya Dubey, Arav Abhinand</b><br></br><br/>
-                      <Button variant="contained" color="primary" onClick={handleClickOpen}> Send Certificates </Button>
-
-
-                      <Dialog
-       open={open}
-        onClose={handleclose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-<DialogTitle id="alert-dialog-title">{"Send certificates to participants?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            By clicking on <b>yes</b> the certificates will be sent to respective mail ids of the participants 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleclose} color="primary">
-            Yes
-          </Button>
-          <Button onClick={handleclose} color="primary" autoFocus>
-            No
-          </Button>
-        </DialogActions>
-
-      </Dialog>
-
-
-                      </CardContent></Card></Grid>
-                      <Grid item xs={12} sm={6} md={6}>
-                      <Card style={{minwidth:200}}>
-                      <CardContent style={{backgroundColor:"#D6EAF8"}}>
-                      <center><b>ART & CRAFT</b><br/><br/></center>
-                      <b>No:of participants: </b>&nbsp;&nbsp;<b>2</b><br></br>
-                      <b>Participant Names: </b>&nbsp;&nbsp;<b>Avyukth Khanna, Neha Maria</b><br></br><br/>
-                      <Button variant="contained" color="primary" onClick={handleClickOpen}> Send Certificates </Button>
-
-
-                      <Dialog
-       open={open}
-        onClose={handleclose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-<DialogTitle id="alert-dialog-title">{"Send certificates to participants?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            By clicking on <b>yes</b> the certificates will be sent to respective mail ids of the participants 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleclose} color="primary">
-            Yes
-          </Button>
-          <Button onClick={handleclose} color="primary" autoFocus>
-            No
-          </Button>
-        </DialogActions>
-
-      </Dialog>
-
-
+                     <b>Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;<b>{option.event_type}</b><br></br>
+                     <b>Venue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        :</b>&nbsp;&nbsp;<b>{option.venue}</b><br></br>
+                     <b>Description&nbsp;:</b>&nbsp;&nbsp;&nbsp;<b>{option.description}</b><br></br>
+                     <b>Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         :</b>&nbsp;&nbsp;<b>{moment(option.start_time).format('MMMM Do YYYY')}</b><br></br>
+                     <b>Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;<b>{moment(option.start_time).format('h:mm a')}</b><br></br><br/>
+                     <Button type='submit' disabled={option.isSubmitting}   variant="contained" color="primary" onClick={e=>handleRegistration(option.event_id,e)}  > Send Certificates 
+                     </Button>
                       </CardContent></Card></Grid>
                    
-                      <Grid item xs={12} sm={6} md={6}>
-                      <Card style={{minwidth:200}}>
-                      <CardContent style={{backgroundColor:"#D6EAF8"}}>
-                      <center><b>FOOD FOR THOUGHT</b><br/><br/></center>
-                      <b>No:of participants: </b>&nbsp;&nbsp;<b>1</b><br></br>
-                      <b>Participant Names: </b>&nbsp;&nbsp;<b>Arohi Sravan</b><br></br><br/>
-                      <Button variant="contained" color="primary" onClick={handleClickOpen}> Send Certificates </Button>
+                ))}
 
-
-                      <Dialog
-       open={open}
-        onClose={handleclose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-<DialogTitle id="alert-dialog-title">{"Send certificates to participants?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            By clicking on <b>yes</b> the certificates will be sent to respective mail ids of the participants 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleclose} color="primary">
-            Yes
-          </Button>
-          <Button onClick={handleclose} color="primary" autoFocus>
-            No
-          </Button>
-        </DialogActions>
-
-      </Dialog>
-
-
-                      </CardContent></Card></Grid>
-                   
+              
             
         </Grid>
-<br/><br/><br/><br/>
-        <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-      showLabels
-      className={classes.root}
-    >
-     
-    </BottomNavigation>
      
   </Box>
-  <Footer/>
+  <BottomNavigation>
+    value={value}
+    onChange={(event, newValue) => {
+      setValue(newValue);
+    }}
+    showLabels
+    className={classes.root}
+  
+
+  
+     
+  </BottomNavigation>
 </Box>
 
       
@@ -316,3 +355,27 @@ const handleclose = () => {
 
   )
 }
+/*<Dialog
+       open={open}
+        onClose={handleclose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+<DialogTitle id="alert-dialog-title">{"Send certificates to participants?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            By clicking on <b>yes</b> the certificates will be sent to respective mail ids of the participants 
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={axios.post('http://localhost:8081/account/leader/sendCertificates/{option.event_id}')} color="primary" onClose={handleClose}>
+          {option.event_id}
+          </Button>
+          <Button onClick={handleclose} color="primary" autoFocus>
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>*/
+
+     /* onClick={()=>
+        {axios.post(`http://localhost:8081/account/leader/sendCertificates/${option.event_id}`);this.disabled=true}}>*/

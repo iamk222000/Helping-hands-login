@@ -176,9 +176,7 @@ export default function Adminpg() {
 
       />
       <Homebar />
-      <Box mt={1} mb={3} align="center">
-        <img src={logo} alt="logo" width='200' height='150' />
-      </Box>
+      
       <br></br>
       <br></br>
       <Box m={3}>
@@ -205,6 +203,7 @@ export default function Adminpg() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} className={classes.root}>
             <Card className={classes.card}>
+            <CardActionArea onClick={()=>{history.push('/Editevents');}}>
               <CardContent>
 
                 <ListItem alignItems='center'>
@@ -217,10 +216,12 @@ export default function Adminpg() {
                 </ListItem>
 
               </CardContent>
+              </CardActionArea>
             </Card>
           </Grid>
           <Grid item xs={12} sm={6} md={4} className={classes.root}>
             <Card className={classes.card} >
+            <CardActionArea onClick={()=>{history.push('/Pastupload');}}>
               <CardContent>
 
                 <ListItem alignItems='center'>
@@ -233,6 +234,7 @@ export default function Adminpg() {
                 </ListItem>
 
               </CardContent>
+              </CardActionArea>
             </Card>
           </Grid>
           <Grid item xs={12} sm={6} md={4} className={classes.root}>

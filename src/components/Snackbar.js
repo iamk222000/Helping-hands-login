@@ -1,12 +1,18 @@
 import React from 'react';
 // import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
+import {Snackbar,makeStyles} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-export default function SimpleSnackbar({mesg}) {
-  const [open, setOpen] = React.useState(true);
-
+const useStyles=makeStyles(theme=>({
+  root:{
+    top:theme.spacing(9)
+  }
+}
+  ))
+export default function SimpleSnackbar(props) {
+  const {notify, setNotify} = props;
+  const classes=useStyles();
   
 
   const handleClose = (event, reason) => {
@@ -14,21 +20,24 @@ export default function SimpleSnackbar({mesg}) {
       return;
     }
 
-    setOpen(false);
+    setNotify({
+      ...notify,
+      isOpen:false});
   };
 
   return (
     <div>
       
       <Snackbar
+       className={classes.root}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'center',
+          horizontal: 'right',
         }}
-        open={open}
+        open={notify.isOpen}
         autoHideDuration={6000}
         onClose={handleClose}
-        message={mesg}
+        message={notify.mesg}
         action={
           <React.Fragment>
             {/* <Button color="secondary" size="small" onClick={handleClose}>

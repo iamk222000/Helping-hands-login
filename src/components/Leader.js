@@ -56,7 +56,7 @@ return(
     <Grid container  spacing={8} className={classes.grid}>
         <Grid item xs={12} sm={6} md={3} className={classes.root}>
             <Card  className={classes.card}>
-            <CardActionArea onClick={()=>{history.push('/Addevents');}}>
+            <CardActionArea onClick={()=>{history.push('/LeaderRR');}}>
                   <CardContent>
                   
                     <ListItem alignItems='center'>
@@ -93,6 +93,7 @@ return(
         </Grid>
         <Grid item xs={12} sm={6} md={3} className={classes.root}>
             <Card  className={classes.card} >
+            <CardActionArea onClick={()=>{history.push('/Chart');}}>
                   <CardContent>
                   
                     <ListItem alignItems='center'>
@@ -105,6 +106,7 @@ return(
                     </ListItem>
                     
                   </CardContent>
+                  </CardActionArea>
             </Card>
         </Grid>
               

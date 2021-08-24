@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {Grid, Card, Box, Button, CardContent, Typography, makeStyles} from '@material-ui/core';
 import imgl from './logo.jpg';
-import wkndevnt1 from './img1.jpg';
+import wkndevnt1 from './explore.jpeg';
 import axios from 'axios';
 import moment from 'moment';
 import Homebar from "./Homebar";
@@ -27,9 +27,8 @@ const Weekend = (props) => {
     const headStyle = {margin:'0', color:'#6200EE'}
     const btnStyle = {margin:'8px 0' }
     const gridStyle={ margin:'3px auto', padding:'5px auto'}
-    const [success,setSuccess]=useState(false);
-    // const [failure,setFailure]=useState(false);
-    const [mesg,setMesg]=useState('');
+    
+    const [notify,setNotify]=useState({isOpen:false,mesg:''});
 
     
     const [wevent,setWevent]=useState([])
@@ -60,8 +59,10 @@ const Weekend = (props) => {
             console.log(response)
             console.log(response.status)
             if (res === 200) {
-                setSuccess(true);
-                setMesg(response.data.message);
+                setNotify({
+                    isOpen:true,
+                    mesg:"Registered successfully"
+                })
             //    alert("Registered Successfully")
             }
         })
@@ -69,19 +70,21 @@ const Weekend = (props) => {
             if (error.response.status === 400) {
                 // console.log(error.response.data.message);
                 // alert("Already registered ")
-                // setSuccess(false);
-                setSuccess(true);
-                setMesg(error.response.data.message);
-
+                setNotify({
+                    isOpen:true,
+                    mesg:"Already Registered"
+                })
                 
             }
-            else
+            else{
             // setSuccess(false);
             console.log(error)
-            setSuccess(true);
-            setMesg(error);
+            setNotify({
+                isOpen:true,
+                mesg:"Something went wrong!"
+            })}
         });
-        // setSuccess(false);
+        //  setSuccess(false);
     };
     const classes=useStyles();
     return(
@@ -126,7 +129,10 @@ const Weekend = (props) => {
                   
               
             </Grid>
-            {success?<Snack mesg={mesg}/>:''}
+            <Snack
+              notify={notify}
+              setNotify={setNotify}
+              />
       </Box>
       <Footer/>
     </Box>
