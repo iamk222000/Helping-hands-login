@@ -74,9 +74,11 @@ const LeaderRR = () => {
             
                 <Grid align='center'>
                     <br />
-                    <Typography variant='h4' style={headStyle}>
-                        <b>Rewards &amp; Recognition</b>
-                    </Typography>
+                    <center> 
+        
+                    <Typography variant='h5' style={{color:"#2E2EFE"}} >Rewards &amp; Recognition</Typography>
+                     </center>
+                    
                 </Grid>
                 
                 {eventRR.map((postOne)=>(
@@ -89,9 +91,9 @@ const LeaderRR = () => {
                             <Paper style={paperStyle} elevation={15}>
                                 
                                         <p align="left">
-                                            <Typography style={{textTransform: "uppercase"}} variant='h6' align="center">
-                                                <b>{postOne.name}</b>
-                                            </Typography>
+                                        <center>
+                                        <Typography variant='h6' style={{color:"#2E2EFE"}} >{postOne.name}</Typography>
+                                        </center>   
                                             <br />
                                             <b> Participant(s): </b>
                                             

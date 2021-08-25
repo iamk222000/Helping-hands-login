@@ -99,9 +99,10 @@ const EditEvents = (props) => {
                     <Paper style={paperStyle} elevation={2}>
                         <Grid item xs={12} align='center'>
                             <br />
-                            <Typography variant='h4' style={headStyle}>
-                                <b>Edit Events</b>
-                            </Typography>
+                            <center> 
+        
+                    <Typography variant='h5' style={{color:"#2E2EFE"}} >Edit Events</Typography>
+                     </center>
                             <br /><br />
                         </Grid>
 

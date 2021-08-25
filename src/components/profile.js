@@ -240,10 +240,14 @@ const Profile=()=>{
                         </Grid>
                         
                         
-                        
                         <Grid item xs={6}>
-                        <DatePickerComponent name="dob" value={dob} format="yyyy/MM/dd" 
-                        placeholder="Date of Birth" width="180px" required
+                        <Field as={TextField}  label="Date of Birth" name='dob' value={dob}
+                             type="date" format="yyyy/MM/dd"
+                            // defaultValue="2021-08-24T10:30" min="2021-08-24"
+                            InputLabelProps={{
+                              shrink: true,
+                          }}
+                            required placeholder="Date of Birth"
                         error={props.errors.dob && props.touched.dob}  onInput={props.handleChange}
                         onChange={(e) =>
                           {console.log(e.target.value)
@@ -253,10 +257,12 @@ const Profile=()=>{
                               
                               payload: e.target.value,
                             })
-                         } }>
-                        </DatePickerComponent>
+                         } }
+                            
+
+                             />
+                    </Grid>
                         
-                        </Grid>
                         <Grid item xs={6}>
                             <Field as={TextField} label='About volunteer'  name="about" required value={about} 
                             error={props.errors.about && props.touched.about}  onInput={props.handleChange}

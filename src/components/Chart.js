@@ -16,50 +16,53 @@ import {
   AreaChart,Area
 } from "recharts";
 import graph from './circlegraph.png';
-const PaperStyle={width:"1100"}
+const PaperStyle={ width:1040 }
 const useStyles = makeStyles({
   root: {
-    marginLeft:'60px',
+    marginLeft:'80px',
     // backgroundColor:"#F39C12",
     
     
   },
   card2:{
-      width:250,
-      height:200,
+      width:200,
+      height:150,
       // backgroundImage: `url(${graph})`,
       // opacity:'100%',
       // backgroundPosition:'center',
        backgroundColor:"#F39C12",
       // backgroundSize:'cover',
       // backgroundRepeat:'no-repeat',
-      marginTop:'0px'
+      marginTop:'0px',
+      marginLeft:'10px'
       
       
       },
       card1:{
-        width:250,
-        height:200,
+        width:200,
+        height:150,
         // backgroundImage: `url(${graph})`,
         // opacity:'30%',
         // backgroundPosition:'center',
         backgroundColor:"#F1C40F",
         // backgroundSize:'cover',
         // backgroundRepeat:'no-repeat',
-        marginTop:'0px'
+        marginTop:'0px',
+        marginLeft:'10px'
         
         
         },
         card3:{
-          width:250,
-          height:200,
+          width:200,
+          height:150,
           // backgroundImage: `url(${graph})`,
           // opacity:'30%',
           // backgroundPosition:'center',
           backgroundColor:"#D35400",
           // backgroundSize:'cover',
           // backgroundRepeat:'no-repeat',
-          marginTop:'0px'
+          marginTop:'0px',
+          marginLeft:'10px'
           
           
           },
@@ -74,52 +77,52 @@ const useStyles = makeStyles({
 const data = [
   {
     name: "Jan",
-    ActiveUsers: 40
+    Volunteers: 20
   },
   {
     name: "Feb",
-    ActiveUsers: 30
+    Volunteers: 15
     
   },
   {
     name: "Mar",
-    ActiveUsers: 32
+    Volunteers: 16
   },
   {
     name: "Apr",
-    ActiveUsers: 40
+    Volunteers: 10
   },
   {
     name: "May",
-    ActiveUsers: 45
+    Volunteers: 20
   },
   {
     name: "Jun",
-    ActiveUsers: 30
+    Volunteers: 15
   },
   {
     name: "Jul",
-    ActiveUsers: 40
+    Volunteers: 17
   },
   {
     name: "Aug",
-    ActiveUsers: 50
+    Volunteers: 12
   },
   {
     name: "Sep",
-    ActiveUsers: 20
+    Volunteers: 20
   },
   {
     name: "Oct",
-    ActiveUsers: 60
+    Volunteers: 23
   },
   {
     name: "Nov",
-    ActiveUsers: 30
+    Volunteers: 10
   },
   {
     name: "Dec",
-    ActiveUsers: 45
+    Volunteers: 15
   }
 ];
 
@@ -127,7 +130,7 @@ export default function Chart() {
   const classes = useStyles();
   const [count,setCount]=useState([])
     
-    //const future=true
+    let future=true
     useEffect(()=>{
         axios.get('http://localhost:8081/account/leader/userAnalyticsCounts')
         .then(res=>{
@@ -140,11 +143,12 @@ export default function Chart() {
             console.log(err)
 
         })
-    },[count])
+    },[future]);
   return (
     <Box m={3}>
         <Homebar/>
-    <Grid container  spacing={3} className={classes.grid}>
+        <center>
+    <Grid container  spacing={2} className={classes.grid}>
     
         <Grid item xs={12} sm={6} md={3} className={classes.root}>
             <Card  className={classes.card1}>
@@ -154,9 +158,14 @@ export default function Chart() {
                     <ListItem alignItems='center'>
                       
                       <ListItemText>
+                      <center>
                       <Typography gutterBottom variant="h6" component="h1">
-                      Volunteers {count[2]}
+                      Volunteers
                     </Typography>
+                    <Typography gutterBottom variant="h2" component="h3">
+                    {count[1]}
+                    </Typography>
+                    </center>
                       </ListItemText>
                     </ListItem>
                     
@@ -174,9 +183,14 @@ export default function Chart() {
                     <ListItem alignItems='center'>
                       
                       <ListItemText>
+                      <center>
                       <Typography gutterBottom variant="h6" component="h1">
-                      Staffs {count[1]}
+                      Hours
                     </Typography>
+                    <Typography gutterBottom variant="h2" component="h3">
+                    {count[0]}
+                    </Typography>
+                    </center>
                       </ListItemText>
                     </ListItem>
                     
@@ -193,9 +207,14 @@ export default function Chart() {
                     <ListItem alignItems='center'>
                       
                       <ListItemText>
+                      <center>
                       <Typography gutterBottom variant="h6" component="h1">
-                      Events {count[0]}
+                      Events
                     </Typography>
+                    <Typography gutterBottom variant="h2" component="h3">
+                    {count[2]}
+                    </Typography>
+                    </center>
                       </ListItemText>
                     </ListItem>
                     
@@ -211,7 +230,7 @@ export default function Chart() {
     <Typography variant="h5">User Analytics</Typography>
     </center>
     <AreaChart
-      width={1190}
+      width={1000}
       height={300}
       data={data}
       
@@ -227,10 +246,10 @@ export default function Chart() {
       <CartesianGrid horizontal="" vertical="" />
       <XAxis dataKey="name" tick={{ fill: 'red' }} stroke="red"/>
       
-      <YAxis type="number" domain={[0, 'auto']} tick={{ fill: 'red' }} stroke="red" tickCount={8}>
+      <YAxis type="number" domain={[0, 'auto']} tick={{ fill: 'red' }} stroke="red" tickCount={5}>
       
     <Label angle={270} position='left' style={{ textAnchor: 'middle',fontSize: '100%', fill: 'red' }} >
-       Number of users
+       Number of Volunteers
     </Label>
     
 </YAxis>
@@ -240,7 +259,7 @@ export default function Chart() {
       
       <Area
         type="monotone"
-        dataKey="ActiveUsers"
+        dataKey="Volunteers"
         stroke="#8884d8"
         fill="#8884d8"
         activeDot={{ r: 8 }}
@@ -254,6 +273,7 @@ export default function Chart() {
     </Grid>
     </Grid>
     <Footer/>
+    </center>
     </Box>
   );
 }

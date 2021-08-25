@@ -9,7 +9,7 @@ import axios from 'axios';
 import logo from './logo.jpg';
 import Snack from './Snackbar';
 import background from './background.jpeg';
-import background1 from './bg3.jpg';
+import background1 from './bg4.jpeg';
 import background2new from './background2new.jpeg';
 import wkndevnt1 from './explore.jpeg';
 
@@ -33,7 +33,7 @@ const Login = ({ handleChange }) => {
         card:{
             height:'410px',
             backgroundImage: `url(${background1})`,
-            opacity:'90%',
+            opacity:'120%',
             backgroundPosition:'center',
             backgroundSize:'cover',
             backgroundRepeat:'no-repeat',
@@ -45,7 +45,7 @@ const Login = ({ handleChange }) => {
             height:"400px",
             position:'center',
             borderRadius: '20px',
-            backgroundColor:'#CEECF5'
+            backgroundColor:'#EFFBFB'
             
         }
         ,box:{

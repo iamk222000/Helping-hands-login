@@ -46,9 +46,7 @@ const Leader = () => {
 return(
     <Box m={3}>
     <Homebar />
-    <Box mt={1} mb={3} align="center">
-      <img src={logo} alt="logo" width='200' height='150' />
-    </Box>
+    
     <br></br>
     <br></br>
     <Box m={3}>
@@ -114,13 +112,7 @@ return(
           
       
     </Grid>
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
-    <Grid align="right">
-                    <Button className={classes.button} color='primary' variant='contained' onClick={Home}>Go To Home Page</Button>
-                </Grid>
+    
   
 </Box>
     <Footer/>

@@ -12,6 +12,14 @@ const useStyles = makeStyles((theme) => ({
       minwidth:200,
       backgroundColor:"white",
     },
+    bot:{
+      position:"fixed",
+      left:0,
+      bottom:0,
+      right:0,
+      // marginBottom:"1px"
+
+    }
 }));
 
 export default function Footer() {
@@ -19,34 +27,23 @@ export default function Footer() {
     const [value, setValue] = React.useState(0);
 
     return(
-        <Box mt={10}>
-        {/* <BottomNavigation
+        <Box mt={10} >
+        <div className={classes.bot}>
+          <BottomNavigation>
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
-          
         }}
         showLabels
         className={classes.root}
-      >
-        <BottomNavigationAction label="Facebook" icon={<FacebookIcon />} />
-        <BottomNavigationAction label="Instagram" icon={<InstagramIcon color='primary'/>} />
-        <BottomNavigationAction label="YouTube" icon={<YouTubeIcon color='primary'/>} />
-      </BottomNavigation> */}
-      <BottomNavigation>
-    value={value}
-    onChange={(event, newValue) => {
-      setValue(newValue);
-    }}
-    showLabels
-    className={classes.root}
-  
-  <BottomNavigationAction label="Facebook" icon={<img src={fb} style={{ height: 25, width: 25 }}/> } />
-  <BottomNavigationAction label="Instagram" icon={<img src={insta} style={{ height: 25, width: 25 }}/>} />
-  <BottomNavigationAction label="Youtube" icon={<img src={yt} style={{ height: 25, width: 25 }}/>} />
-  
-     
-  </BottomNavigation>
+      
+      <BottomNavigationAction label="Facebook" icon={<img src={fb} style={{ height: 25, width: 25 }}/> } />
+      <BottomNavigationAction label="Instagram" icon={<img src={insta} style={{ height: 25, width: 25 }}/>} />
+      <BottomNavigationAction label="Youtube" icon={<img src={yt} style={{ height: 25, width: 25 }}/>} />
+      
+        
+      </BottomNavigation>
+      </div>
       </Box>
   
     )

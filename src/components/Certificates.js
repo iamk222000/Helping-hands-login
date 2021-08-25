@@ -206,17 +206,15 @@ const handleRegistration=(eventid,e)=>{
     
     <Box  mb={10}> 
 
-      
-       
-
-
-
-	
     <Box m={5}>
     <Homebar/>
-      <br/>
-    <center> <h2 color="primary">Certificates</h2> </center>
-        <Grid container  spacing={6} >
+      <br></br>
+      <center> 
+        
+      <Typography variant='h5' style={{color:"#2E2EFE"}} >Certificates</Typography>
+       </center>
+       <br></br>
+        <Grid container  spacing={4} >
          
              
                 {pevent.map((option) => (
@@ -228,11 +226,11 @@ const handleRegistration=(eventid,e)=>{
                      
                     
                       
-                     <b>Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;<b>{option.event_type}</b><br></br>
-                     <b>Venue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        :</b>&nbsp;&nbsp;<b>{option.venue}</b><br></br>
-                     <b>Description&nbsp;:</b>&nbsp;&nbsp;&nbsp;<b>{option.description}</b><br></br>
-                     <b>Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         :</b>&nbsp;&nbsp;<b>{moment(option.start_time).format('MMMM Do YYYY')}</b><br></br>
-                     <b>Time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;<b>{moment(option.start_time).format('h:mm a')}</b><br></br><br/>
+                     <b>Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</b>&nbsp;&nbsp;{option.event_type}<br></br>
+                     <b>Venue &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;{option.venue}<br></br>
+                     <b>Description &nbsp;:</b>&nbsp;&nbsp;{option.description}<br></br>
+                     <b>Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;{moment(option.start_time).format('MMMM Do YYYY')}<br></br>
+                     <br></br>
                      <Button type='submit' disabled={option.isSubmitting}   variant="contained" color="primary" onClick={e=>handleRegistration(option.event_id,e)}  > Send Certificates 
                      </Button>
                       </CardContent></Card></Grid>
@@ -244,18 +242,7 @@ const handleRegistration=(eventid,e)=>{
         </Grid>
      
   </Box>
-  <BottomNavigation>
-    value={value}
-    onChange={(event, newValue) => {
-      setValue(newValue);
-    }}
-    showLabels
-    className={classes.root}
   
-
-  
-     
-  </BottomNavigation>
   <Footer/>
 </Box>
 

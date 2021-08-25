@@ -141,7 +141,7 @@ export default function ButtonAppBar() {
 	<br/>
   
 	<center> 
-        {/* <h2 color="primary">Oppurtunities Participated</h2> */}
+        
         <Typography variant='h5' style={{color:"#2E2EFE"}} >Opportunities Registered</Typography>
          </center>
     <Box m={5}>

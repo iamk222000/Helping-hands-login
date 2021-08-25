@@ -68,9 +68,7 @@ const Reguserpg = (props) => {
   return (
     <Grid  height='100%'>
       <Homebar />
-      <Box mt={1} mb={3} align="center">
-        <img src={logo} alt="logo" width='200' height='150' />
-      </Box>
+      
       <Box align="center">
         <Grid
           container

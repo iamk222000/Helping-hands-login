@@ -115,7 +115,7 @@ const Weekend = (props) => {
                                 <b>Date : </b>  {moment(post.start_time).format('MMMM Do YYYY')}<br></br>
                                <b>Start Time : </b> {moment(post.start_time).format('h:mm a')}<br></br>
                                 <b>End Time : </b>  {moment(post.end_time).format('h:mm a')}<br></br>
-                                <Button type='submit'  variant="contained" disabled={props.isSubmitting}
+                                <Button type='submit'  variant="contained" color="primary" disabled={props.isSubmitting}
                                 className={classes.button} onClick={e=>handleRegistration(post.event_id,e)} >{props.isSubmitting ? "Loading" : "Register"}</Button>
                                 
                                 </Grid>

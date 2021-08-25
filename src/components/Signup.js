@@ -9,7 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import background from './background.jpeg';
-import background1 from './bg3.jpg';
+import background1 from './bg4.jpeg';
 
 
 const Register = () => {
@@ -102,7 +102,7 @@ const Register = () => {
         card:{
             height:'410px',
             backgroundImage: `url(${background1})`,
-            opacity:'90%',
+            opacity:'120%',
             backgroundPosition:'center',
             backgroundSize:'cover',
             backgroundRepeat:'no-repeat',
@@ -115,9 +115,10 @@ const Register = () => {
             height:"400px",
             position:'center',
             borderRadius: '20px',
-            backgroundColor:'#CEECF5'
+            backgroundColor:'#EFFBFB'
             
         }
+       
         ,box:{
             alignItems:'center',
             justify:'center',
@@ -129,7 +130,7 @@ const Register = () => {
   	        boxShadow: '0 14px 28px rgba(0,0,0,0.25),0 10px 10px rgba(0,0,0,0.22)',
 	        position: 'relative',
 	        overflow:'hidden',
-            borderSizing:'border-box'
+            borderSizing:'border-box',
         }
         ,buttonr:{
             width:'115px',
