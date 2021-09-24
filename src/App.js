@@ -22,6 +22,10 @@ import Signup from './components/Signup';
 import Chart from './components/Chart';
 import Pastupload from './components/Pastupload';
 import LeaderRR from './components/LeaderRR'
+import Slideshow from './components/Slideshow'
+import SlideshowReg from './components/SlideshowReg'
+import 'react-app-polyfill/stable'
+
 function App() {
   return (
     <Router>
@@ -44,11 +48,13 @@ function App() {
     <Route exact path='/Certificates' component={Certificates}/>
     <Route exact path='/Editevents' component={Editevents}/>
     <Route exact path='/Snackbar' component={Snackbar}/>
-    <Route exact path='/' component={Signin}/>
+    <Route exact path='/Signin' component={Signin}/>
     <Route exact path='/Signup' component={Signup}/>
     <Route exact path='/Chart' component={Chart}/>
     <Route exact path='/Pastupload' component={Pastupload}/>
     <Route exact path='/LeaderRR' component={LeaderRR}/>
+    <Route exact path='/' component={Slideshow}/>
+    <Route exact path='/SlideshowReg' component={SlideshowReg}/>
    </Switch>
    </Router>
      )
