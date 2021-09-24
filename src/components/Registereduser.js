@@ -31,7 +31,7 @@ const Reguserpg = (props) => {
   const eventn = JSON.parse(localStorage.getItem("eventName"))
   console.log(eventn)
   useEffect(() => {
-    axios.get(`http://localhost:8081/account/admin/getAllParticipants/${eventn}`)
+    axios.get(`/account/admin/getAllParticipants/${eventn}`)
 
       .then(res => {
         console.log(res)
@@ -43,9 +43,10 @@ const Reguserpg = (props) => {
 
       })
   }, [eventn])
-
+  const [disable, setDisable] = React.useState(false);
   const sentEmail = () => {
-    axios.post(`http://localhost:8081/account/admin/sendReminders/${eventn}`)
+
+    axios.post(`/account/admin/sendReminders/${eventn}`)
       .then(res => {
         if (res.status === 200) {
           // alert("Remainders sent successfully")
@@ -53,6 +54,7 @@ const Reguserpg = (props) => {
                     isOpen:true,
                     mesg:"Remainders sent successfully!"
                 })
+                setDisable(true)
         }
 
       })
@@ -68,7 +70,7 @@ const Reguserpg = (props) => {
   return (
     <Grid  height='100%'>
       <Homebar />
-      
+
       <Box align="center">
         <Grid
           container
@@ -81,7 +83,7 @@ const Reguserpg = (props) => {
             <Avatar className={classes.purple}>{count}</Avatar></Tooltip>
           <Tooltip title="Sent Email">
             <IconButton color='primary' aria-label="Notify" className={classes.margin}
-              onClick={sentEmail}>
+              onClick={sentEmail} disabled={disable}>
               <NotificationsIcon />
             </IconButton></Tooltip></Grid>
       </Box>

@@ -35,7 +35,7 @@ const Weekend = (props) => {
     const event="Weekend event"
     //const future=true
     useEffect(()=>{
-        axios.get('http://localhost:8081/account/events/getEventsList/true/Weekend event')
+        axios.get('/account/events/getEventsList/true/Weekend event')
         //('http://localhost:8081/account/event/getEventList/'.concat('/isFutureEvent').concat('future').concat('/eventType').concat('event'))
         //(`http://localhost:8081/account/events/getEventsList/isFutureEvent${future}/eventType${event}`)
         .then(res=>{
@@ -53,7 +53,7 @@ const Weekend = (props) => {
         const email=dataInfo.id
         
         
-            axios.post(`http://localhost:8081/account/events/registerForEvent/${id}/${email}`)
+            axios.post(`/account/events/registerForEvent/${id}/${email}`)
         .then((response) => {
             var res=response.status
             console.log(response)
@@ -93,7 +93,10 @@ const Weekend = (props) => {
       
       <Box align="center">
       <center>
-      <Typography variant='h5' style={{color:"#2E2EFE"}} >Weekend Events</Typography>
+               <Typography variant='h5' style={{color:"textSecondary"}} >Weekend Events</Typography>
+               <p style={{ height: "30px", width: "1200px", padding: "5px", borderRadius: "5px", color: "#2874a6" }}>
+                     By Helen Keller -  <strong><i> Alone we can do so little; together we can do so much. </i></strong>
+               </p>
       </center>
       </Box>
       <Box m={5}>
@@ -106,7 +109,9 @@ const Weekend = (props) => {
                     <Card style={{minwidth:200}} className={classes.card}>
                           <CardContent>
                           <Grid container spacing={5}>
-                            
+                            <Grid item xs={6} style={gridStyle}>
+                            <img src={`data:image/png;base64,${post.image}`} height='200px' width='270px' alt="Event image" />
+                            </Grid>
                             <Grid item xs={6} style={gridStyle}>
                                <br></br>
                                 <b>{post.name}</b><br></br>

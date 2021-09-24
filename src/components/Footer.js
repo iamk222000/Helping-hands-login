@@ -12,11 +12,17 @@ const useStyles = makeStyles((theme) => ({
       minwidth:200,
       backgroundColor:"white",
     },
+    bnav:{
+      height:'45px',
+      backgroundColor:"#E6E6E6",
+    },
     bot:{
+
       position:"fixed",
       left:0,
       bottom:0,
       right:0,
+
       // marginBottom:"1px"
 
     }
@@ -29,7 +35,7 @@ export default function Footer() {
     return(
         <Box mt={10} >
         <div className={classes.bot}>
-          <BottomNavigation>
+          <BottomNavigation className={classes.bnav}>
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);

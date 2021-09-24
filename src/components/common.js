@@ -86,7 +86,7 @@
                 const { email,mobile_number,about,location,address,gender } = myprofile;
                 useEffect(()=>{
                     
-                    axios.get(`http://localhost:8081/account/getProfile/${id}`)
+                    axios.get(`/account/getProfile/${id}`)
                     .then(res=>{
                         console.log(res)
                         const pro=res.data
@@ -114,7 +114,7 @@
                         address
                     };
                     console.log(user)
-                    axios.post("http://localhost:8081/account/saveProfile", user)
+                    axios.post("/account/saveProfile", user)
                     .then((response) => {
                         var res = response.status;
                        

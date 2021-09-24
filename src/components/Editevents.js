@@ -1,208 +1,399 @@
-import React, {useState, useEffect} from 'react';
-import {Grid, Paper, Box, Button, Card, CardContent, Select, NativeSelect, MenuItem, InputLabel, FormControl, FormHelperText, Tooltip, Typography, TextField, AppBar, IconButton, Toolbar , makeStyles} from '@material-ui/core';
-import {ArrowBack, Home, Menu } from '@material-ui/icons';
-import {Formik, Form, Field, ErrorMesage} from 'formik';
-//import logo from './HH-logo.jpg';
-import icon from './HH-icon.ico';
+import React, { useState, useEffect, useReducer, Fragment } from 'react';
+import { Grid, Paper, Box, Button, Card, CardContent, Select, NativeSelect, MenuItem, InputLabel, FormControl, FormHelperText, Tooltip, Typography, TextField, AppBar, IconButton, Toolbar, makeStyles } from '@material-ui/core';
+import { ArrowBack, Home, Menu } from '@material-ui/icons';
+import { Formik, Form, Field, ErrorMesage } from 'formik';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import Homebar from "./Homebar";
 import Footer from './Footer';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker, } from '@material-ui/pickers';
-
+import Snack from './Snackbar';
 //import Dropdown from 'react-dropdown';
-
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import es from 'date-fns/locale/es';
 import moment from 'moment';
 import axios from 'axios';
 
+function editPage(edit, action) {
+  const dataInfo = JSON.parse(localStorage.getItem("myEdit"))
+  // const info=JSON.parse(localStorage.getItem("myInfo"))
 
-const EditEvents = (props) => {
-    const paperStyle = {padding:'10px 25px', height:'auto', width:'auto', margin:'20px 25px', border:' black'}
-    const gridStyle = {margin:'auto auto', padding:'auto auto'}
-    const headStyle = {margin:'0', fontFamily:'sans-serif', color:'#8A2BE2'}
-    const btnStyle = {margin:'15px 15px'}
-    const logoStyle = {height:98, width:128}
-    // const iconStyle = {height:45, width:45}
-    const formStyle = {width:'100%'}
-
-    const [wevent, setWevent] = useState([])
-    const event = "Weekend event"
-    //const future=true
-    useEffect(() => {
-        axios.get('http://localhost:8081/account/events/getEventsList/true/Weekend event')
-        //('http://localhost:8081/account/events/getEvents/'.concat('/isFutureEvent').concat('event'))
-        //(`http://localhost:8081/account/events/getEventsList/isFutureEvent${future}/eventTypes${event}`)
-        .then(response => {
-            console.log(response)
-            console.log(response.data[0].event_id)
-            setWevent(response.data)
-        })
-        .catch(error => {
-            if(error.response.status===400 || error.response.status===401) {
-                console.log(error.response.data.message)
-            }
-            else {
-                console.log("Oop! Something went wrong")
-            }
-        })
-    },[event])
-
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
-    const onSubmit = (values, props) => {
-        const event = Object.create(values)
-        axios.post("localhost:8081/")
+  switch (action.type) {
+    case 'field': {
+      return {
+        ...edit,
+        [action.fieldName]: action.payload,
+      };
     }
 
-    const options = [
-        { value: 'weekendevents', label: 'Weekend Events' },
-        { value: 'webinarforNGOs', label: 'Webinar for NGOs' },
-        { value: 'foodforthought', label: 'Food for Thought' },
-        { value: 'artsandcraft', label: 'Arts & Craft' },
-      ];
+    case 'success': {
+      return {
+        event_id: dataInfo.event_id,
+        name: dataInfo.name,
+        event_type: "Weekend event",
+        description: dataInfo.description,
+        venue: dataInfo.venue,
+        start_time: moment(dataInfo.start_time).format("YYYY-MM-DDThh:mm"),
+        end_time: moment(dataInfo.end_time).format("YYYY-MM-DDThh:mm"),
 
-    const useStyles = makeStyles((theme) => ({
-        root: {
-            display: 'flex',
-            '& > *': {
-              margin: theme.spacing(1),
-            },
-        },
-        homeButton: {
-            marginRight: theme.spacing(2),
-        },
-        backButton: {
-            marginLeft: theme.spacing(1),
-        },
-        button:{
-            color:"primary",
-            '&:hover':{
-                backgroundColor:"#2471A3",
-            },
-            marginTop:"8px"
+
+      };
+    }
+    case 'error': {
+      return {
+        ...edit,
+
+      };
+    }
+
+    default:
+      return edit;
+  }
+}
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+const EditEvents = (props) => {
+  // const paperStyle = { padding: '10px 25px', height: 'auto', width: 'auto', margin: '20px 25px', border: ' black' }
+  // const gridStyle = { margin: 'auto auto', padding: 'auto auto' }
+  // const headStyle = { margin: '0', fontFamily: 'sans-serif', color: '#8A2BE2' }
+  // const btnStyle = { margin: '15px 15px' }
+  // const logoStyle = { height: 98, width: 128 }
+  // const iconStyle = {height:45, width:45}
+  // const dataEvent1=JSON.parse(localStorage.getItem("myEvent"))
+  const dataInfo1 = JSON.parse(localStorage.getItem("myEdit"))
+  const marginTop = { marginTop: '10px', marginBottom: '8px', width: '100px' }
+  const initialValues = {
+    event_id: " ",
+    name: " ",
+    event_type: "Weekend event",
+    description: " ",
+    venue: " ",
+    start_time: " ",
+    end_time: " "
+  }
+  const [notify, setNotify] = React.useState({ isOpen: false, mesg: '' });
+  const [wevent, setWevent] = useState([])
+  const [edit, setEdit] = useReducer(editPage, initialValues);
+  const { event_id, name, venue, description, start_time, end_time, event_type } = edit;
+  const event = "Weekend event"
+  const [eventId, setEventId] = React.useState();
+  const { editp, setEditp } = props;
+  const formStyle = { textAlign: 'center' }
+  //const future=true
+  const handleClose = () => {
+    setEditp({
+      openEdit: false
+    });
+
+  };
+  React.useEffect(() => {
+    axios.get('/account/events/getEventsList/true/Weekend event')
+      //('http://localhost:8081/account/events/getEvents/'.concat('/isFutureEvent').concat('event'))
+      //(`http://localhost:8081/account/events/getEventsList/isFutureEvent${future}/eventTypes${event}`)
+      .then(response => {
+        console.log(response)
+        console.log(response.data[0].event_id)
+        setWevent(response.data)
+
+      })
+      .catch(err => {
+        console.log(err)
+
+
+      })
+  }, [event])
+
+  const handleChange = (event) => {
+    // setEventName(event.target.value);
+    const evid = event.target.value;
+    localStorage.setItem('editeventId', JSON.stringify(evid));
+    const editid = JSON.parse(localStorage.getItem("editeventId"));
+    axios.get(`/account/events/${editid}`)
+      .then(response => {
+        console.log(response)
+        console.log(response.data);
+        const pro = response.data
+        localStorage.setItem('myEdit', JSON.stringify(pro))
+        setEdit({ type: 'success' })
+
+      })
+      .catch(err => {
+        console.log(err)
+        setEdit({ type: 'error' })
+
+
+      })
+  };
+
+
+
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const user = {
+
+      event_id,
+      name,
+      event_type,
+      description,
+      venue,
+      start_time,
+      end_time
+    }
+
+    axios.post("/account/admin/updateEvents", user)
+      .then((response) => {
+        var res = response.status;
+
+        console.log(response.status)
+        if (res === 200) {
+          setNotify({
+            isOpen: true,
+            mesg: "Saved Changes Successfully!"
+          })
+
+          // history.push('/apphome');
+          // setSuccess(true);
+          // setMesg("Profile Updated!");
+          // setOpen(true);
         }
-    }));
 
-    const classes = useStyles();
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          console.log(error.response.data.message);
+          setNotify({
+            isOpen: true,
+            mesg: "Something Went Wrong!"
+          })
+          // setOpen(true);
+          // setMesg(error.response.data.message);
 
-    return (
-        <Box >
-            <Homebar/>
 
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid style={gridStyle} >
-                    <Paper style={paperStyle} elevation={2}>
-                        <Grid item xs={12} align='center'>
-                            <br />
-                            <center> 
-        
-                    <Typography variant='h5' style={{color:"#2E2EFE"}} >Edit Events</Typography>
-                     </center>
-                            <br /><br />
-                        </Grid>
+        }
+        else {
+          setNotify({
+            isOpen: true,
+            mesg: "Something Went Wrong!"
+          })
+          //    setOpen(true);
+          //     setMesg("Something went wrong");}
+          console.log(error)
+        }
+      });
+  }
 
-                        <FormControl style={formStyle} variant="outlined" align="center">
-                            <InputLabel>Event Type</InputLabel>
-                            <NativeSelect label="Event Type" >
-                                <option align-items='center' value="" />
-                                <option value="weekendevent">Weekend Event</option>
-                                <option disabled value="webinarforngo">Webinars for NGO</option>
-                                <option disabled value="artsandcraft">Arts &amp; Craft</option>
-                                <option disabled value="foodforthought">Food for Thought</option>
-                            </NativeSelect>
-                            <FormHelperText>Find event by type</FormHelperText>
-                            <br />
-                        </FormControl>
 
-                        <Grid container spacing={4}>
-                            {wevent.map((post)=>(
-                                <Grid item xs={12} >
-                                    <Card style={{minwidth:200}} className={classes.card}>
-                                        <CardContent>
-                                            <Grid container spacing={2}>
-                                                <Grid style={gridStyle}>
-                                                    <Formik>
-                                                        {(props) => (
-                                                            <Form >
-                                                                <p align="left">
-                                                                    <Field as={TextField} fullWidth label="Event Name" name="eventname" value={post.name} required />
-                                                                    <br /><br />
-                                                                    <Field as={TextField} fullWidth label="Venue" name="venue" value={post.venue} required />
-                                                                    <br /><br />
-                                                                    <TextField
-                                                                        id="standard-multiline-static"
-                                                                        label="Description"
-                                                                        name="description"
-                                                                        multiline
-                                                                        fullWidth
-                                                                        maxRows={4}
-                                                                        defaultValue={post.description}
-                                                                        required
-                                                                    />
-                                                                </p>
-                                                            </Form>
-                                                        )}
-                                                    </Formik>
-                                                </Grid>
-                                                 
-                                                <Grid style={gridStyle}>
-                                                    <Formik>
-                                                        {(props) => (
-                                                            <Form >
-                                                                <p align="left">
-                                                                    <TextField
-                                                                        id="standard-read-only-input"
-                                                                        label="Event ID"
-                                                                        defaultValue={post.event_id} 
-                                                                        inputProps={{readOnly: true,}}
-                                                                    />
-                                                                    <br />                                                  
-                                                                    <KeyboardDatePicker
-                                                                        disableToolbar
-                                                                        disablePast
-                                                                        variant="inline"
-                                                                        format="MMM dd yyyy"
-                                                                        margin="normal"
-                                                                        id="date-picker-inline"
-                                                                        label="Date"
-                                                                        defaultValue={moment(post.start_time)}
-                                                                        required
-                                                                        onChange={handleDateChange}
-                                                                        KeyboardButtonProps = {{
-                                                                            'aria-label': 'change date',
-                                                                        }}
-                                                                    />
-                                                                    <br /><br />
-                                                                    <Field as={TextField} fullWidth label="Start Time" name="starttime" value={moment(post.start_time).format('h:mm a')} required />
-                                                                    <br /><br />
-                                                                    <Field as={TextField} fullWidth label="End Time" name="endtime" value={moment(post.end_time).format('h:mm a')} required />
-                                                                    <br />
-                                                                </p>
-                                                            </Form>
-                                                        )}
-                                                    </Formik>
-                                                </Grid>
-                                            </Grid>
-                                        </CardContent>
+  // const options = [
+  //     { value: 'weekendevents', label: 'Weekend Events' },
+  //     { value: 'webinarforNGOs', label: 'Webinar for NGOs' },
+  //     { value: 'foodforthought', label: 'Food for Thought' },
+  //     { value: 'artsandcraft', label: 'Arts & Craft' },
+  //   ];
+  //   const dataEvent=JSON.parse(localStorage.getItem("myEvent"))
+  // console.log(dataEvent)
+  // console.log(dataEvent[0].name)
 
-                                        <Button type='submit' style={btnStyle} color='primary' align='right' variant='contained' >
-                                            Save Changes
-                                        </Button>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Paper>
+  // const classes = useStyles();
+
+  return (
+
+    <Fragment>
+      <Dialog
+        // fullWidth={true}
+        width='xl'
+        open={editp.openEdit}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >    <center>
+          <DialogTitle id="past-event-dialog-title">Edit Events</DialogTitle>
+          {/* <Paper elevation={20} style={paperStyle}> */}</center>
+        <DialogContent >
+
+
+          <Grid  >
+            {/* <Paper style={paperStyle} elevation={2}> */}
+
+            {/* <Box ml={3} mb={3} mt={4}> */}
+            {/* <FormControl alignItems="center" variant="outlined" style={{ minWidth: 200, height: 80 }}>
+                <InputLabel id="demo-simple-select-outlined-label">Event Name</InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-event-name"
+                  label="Event Name"
+                  value={eventId}
+                  onChange={handleChange}
+
+                  MenuProps={MenuProps}
+                >
+                  {wevent.map((eve) => (
+                    <MenuItem key={eve.event_id} value={eve.event_id} >
+                      {eve.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>Find event by type</FormHelperText> */}
+            {/* <br />
+              </FormControl> */}
+            {/* </Box> */}
+            <Box>
+              <Grid container style={{ width: '200' }} >
+                {/* {wevent.map((post)=>( */}
+                <Grid item xs={12} >
+                  {/* <Card  style={{width:'800'}}> */}
+
+                  {/* <CardContent style={{ textAlign: "center" }}> */}
+
+                  {/* <Grid container spacing={2}> */}
+                  <Grid >
+                    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                      {(props) => (
+                        <Form style={formStyle}>
+                          {/* <div class="container"> */}
+                          <Grid container spacing={2}>
+                          <Grid item xs={6}>
+                            <FormControl alignItems="center" style={{ minWidth: 200, height: 80 }}>
+                              <InputLabel id="demo-simple-select-outlined-label">Event Name</InputLabel>
+                              <Select
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-event-name"
+                                label="Event Name"
+                                value={eventId}
+                                onChange={handleChange}
+
+                                MenuProps={MenuProps}
+                              >
+                                {wevent.map((eve) => (
+                                  <MenuItem key={eve.event_id} value={eve.event_id} >
+                                    {eve.name}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                              {/* <FormHelperText>Find event by name</FormHelperText> */}
+                              </FormControl></Grid>
+                              <Grid item xs={6}>
+                                <Field as={TextField} label='Venue' name="venue" onInput={props.handleChange} value={venue} style={{ marginLeft: '-20px' }}
+                                  onChange={e =>
+                                    setEdit({
+                                      type: 'field',
+                                      fieldName: 'venue',
+                                      payload: e.currentTarget.value,
+                                    })
+
+                                  }
+                                  required />
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Field as={TextField} label="Start time" name='start_time' value={start_time}  style={{ marginLeft: '10px' }}
+                                  type="datetime-local"
+                                  defaultValue="2021-08-24T10:30" min="2021-08-24"
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  required placeholder="Start_time"
+                                  onInput={props.handleChange}
+                                  onChange={(e) => {
+                                    console.log(e.target.value)
+                                    setEdit({
+                                      type: 'field',
+                                      fieldName: 'start_time',
+                                      payload: e.target.value,
+                                    })
+                                  }}
+
+
+                                />
+                              </Grid>
+
+                              <Grid item xs={6}>
+                                <Field as={TextField} label="End time" name='end_time' value={end_time} style={{ marginLeft: '20px' }}
+                                  type="datetime-local"
+                                  defaultValue="2021-08-24T10:30" min="2021-08-24"
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  required placeholder="end Time"
+                                  onInput={props.handleChange}
+                                  onChange={(e) => {
+                                    console.log(e.target.value)
+                                    setEdit({
+                                      type: 'field',
+                                      fieldName: 'end_time',
+
+                                      payload: e.target.value,
+                                    })
+                                  }
+                                  }
+
+
+                                />
+                              </Grid>
+
+
+                              <Grid item xs={12}>
+                                <Field as={TextField} label='Description' name="description" required value={description} style={{ marginLeft: '10px', width: '500px' }}
+                                  required onInput={props.handleChange}
+                                  InputLabelProps={{
+                                    shrink: true,
+                                  }}
+                                  onChange={(e) =>
+                                    setEdit({
+                                      type: 'field',
+                                      fieldName: 'description',
+                                      payload: e.currentTarget.value,
+                                    })}
+                                />
+                              </Grid>
+
+
+
+                                  </Grid>
+                            {/* </div> */}
+
+                            <Box ml={30}>
+                              <Button type='submit' color='primary' disabled={props.isSubmitting}
+                                style={marginTop} onClick={onSubmit}>{props.isSubmitting ? "Loading" : "Edit"}</Button>
+                              <Button onClick={handleClose} color="primary" >
+                                Close
+                              </Button>
+                            </Box>
+                              </Form>
+                            )}
+                          </Formik>
+                        {/* </Grid> */}
+                      </Grid>
+
+                    {/* </CardContent>
+
+                  </Card> */}
+                  </Grid>
+
+                  {/* ))} */}
+
                 </Grid>
-            </MuiPickersUtilsProvider>
-            <Footer/>
-        </Box>
-    )
+            </Box>
+              {/* </Paper> */}
+              <Snack
+                notify={notify}
+                setNotify={setNotify}
+              />
+          </Grid>
+        </DialogContent>
+      </Dialog>
+    </Fragment>
+
+
+      )
 }
 
-export default EditEvents;
+
+      export default EditEvents;

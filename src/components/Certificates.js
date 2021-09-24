@@ -32,7 +32,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import HHicon from './logo.jpg';
 import Homebar from "./Homebar";
 import Footer from './Footer';
-
+import Snack from './Snackbar';
 
 const imgstyle = {
   margin: '10px 60px'
@@ -41,7 +41,7 @@ const imgstyle = {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    
+
   },
   menuButton: {
     marginLeft: theme.spacing(5),
@@ -102,51 +102,51 @@ const StyledMenu = withStyles({
   const [value, setValue] = React.useState(0);
   const [pevent, setPevent] = useState([]);
   const dataInfo=JSON.parse(localStorage.getItem("myInfo"))
-  
-  
-      
+  const [notify, setNotify] = React.useState({ isOpen: false, mesg: '' });
+
+
   useEffect(()=>{
-  
+
    {
-    
-   axios.get('http://localhost:8081/account/events/pastEvents')
+
+   axios.get('/account/events/getEventsList/false/Weekend event')
   .then((response) => {
-  
-   
+
+
    console.log(response.data)
    var id=response.data[0].event_id;
-   
+
    setPevent(response.data)
-  
+
    })
  };
 }, [])
-      
+
   const classes = useStyles();
-  
+
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
- 
+
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   const handleclose = () => {
     setOpen(false);
   };
- 
+
   const handleClose = () => {
     setAnchorEl(null);};
 
 
- /*   
+ /*
     let history = useHistory();
   const home = () => {
-   
+
     history.push('/home');
   };
   let history = useHistory();
@@ -161,13 +161,12 @@ const StyledMenu = withStyles({
 const history = useHistory();
 const [success,setSuccess]=useState(false);
 const [mesg,setMesg]=useState('');
-
-
+const [disable, setDisable] = React.useState(false);
 
 const handleRegistration=(eventid,e)=>{
-  
 
-  axios.post(`http://localhost:8081/account/leader/sendCertificates/${eventid}`)
+  setDisable(true)
+  axios.post(`/account/leader/sendCertificates/${eventid}`)
   .then((response) => {
       var res=response.status
       console.log(response)
@@ -175,79 +174,93 @@ const handleRegistration=(eventid,e)=>{
       if (res === 200) {
           setSuccess(true);
           setMesg(response.data.message);
-         alert("Certificate Sent Successfully!")
+        //  alert("Certificate Sent Successfully!")
+         setNotify({
+                        isOpen: true,
+                        mesg: "Certificate Sent successfully!"
+                    })
+         setDisable(false)
       }
   })
+
   .catch((error) => {
       if (error.response.status === 400) {
-          // console.log(error.response.data.message);
-          // alert("Already registered ")
-          // setSuccess(false);
+        setNotify({
+          isOpen: true,
+          mesg: "Something Went Wrong!"
+      })
           setSuccess(true);
           setMesg(error.response.data.message);
 
-          
+
       }
-      else
+      else{
+        setNotify({
+          isOpen: true,
+          mesg: "Something Went Wrong!"
+      })
+      }
       // setSuccess(false);
       console.log(error)
       setSuccess(true);
       setMesg(error);
 
-     
+
   });
   // setSuccess(false);
-  
+
 };
 
 
   return (
 
-    
-    <Box  mb={10}> 
+
+    <Box  mb={10}>
 
     <Box m={5}>
     <Homebar/>
       <br></br>
-      <center> 
-        
-      <Typography variant='h5' style={{color:"#2E2EFE"}} >Certificates</Typography>
-       </center>
+      <center>
+
+               <Typography variant='h5' style={{color:"textSecondary"}} >Certificates</Typography>
+                </center>
        <br></br>
         <Grid container  spacing={4} >
-         
-             
+
+
                 {pevent.map((option) => (
-                 
+
                     <Grid item xs={12} sm={6} md={6}>
                       <Card style={{minwidth:200}}>
                       <CardContent style={{backgroundColor:"#D6EAF8"}}>
                       <center><b>{option.name}</b><br/><br/></center>
-                     
-                    
-                      
+
+
+
                      <b>Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</b>&nbsp;&nbsp;{option.event_type}<br></br>
                      <b>Venue &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;{option.venue}<br></br>
                      <b>Description &nbsp;:</b>&nbsp;&nbsp;{option.description}<br></br>
                      <b>Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;{moment(option.start_time).format('MMMM Do YYYY')}<br></br>
                      <br></br>
-                     <Button type='submit' disabled={option.isSubmitting}   variant="contained" color="primary" onClick={e=>handleRegistration(option.event_id,e)}  > Send Certificates 
+                     <Button type='submit'   variant="contained" color="primary" onClick={e=>handleRegistration(option.event_id,e)} disabled={disable} > Send Certificates
                      </Button>
+
                       </CardContent></Card></Grid>
-                   
+
                 ))}
 
-              
-            
+
+
         </Grid>
-     
+        <Snack
+                notify={notify}
+                setNotify={setNotify}
+            />
+
   </Box>
-  
+
   <Footer/>
 </Box>
-
-      
-    
 
   )
 }

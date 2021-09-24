@@ -56,7 +56,7 @@ export default function Pastupload(props) {
   const hiddenFileInput = React.useRef(null);
   // const evid=null;
   React.useEffect(() => {
-    axios.get('http://localhost:8081/account/events/getEventsList/false/Weekend event')
+    axios.get('/account/events/getEventsList/false/Weekend event')
 
       .then(res => {
         console.log(res)
@@ -73,14 +73,14 @@ export default function Pastupload(props) {
     // setEventName(event.target.value);
     const evid=event.target.value;
     localStorage.setItem('eventId', JSON.stringify(evid));
-    
+
 
   };
 
 
   const handleClose = () => {
     setPast({
-      isOpen: false
+      isOp: false
     });
     setFileName(null);
   };
@@ -97,15 +97,15 @@ export default function Pastupload(props) {
     //   isOpen: false
     // });
 
-    
-    
+
+
     const fd = new FormData();
     const file = JSON.parse(localStorage.getItem("files"));
     fd.append('file', selectedFile);
     console.log({selectedFile})
     // console.log({fileName})
     const dataId = JSON.parse(localStorage.getItem("eventId"));
-    
+
     const config={headers:{
       'content-type':'multipart/form-data'
     }}
@@ -115,7 +115,7 @@ export default function Pastupload(props) {
     //  "Content-Type":"multipart/form-data"}
     // })
     axios({
-      url:`http://localhost:8081/account/admin/addImage/${dataId}`,
+      url:`/account/admin/addImage/${dataId}`,
       method:'post',
       data:fd,
       config
@@ -130,7 +130,7 @@ export default function Pastupload(props) {
               })
               setFileName(null);
       }
-      
+
     })
     .catch(err => {
       console.log(err)
@@ -140,7 +140,7 @@ export default function Pastupload(props) {
     })
 
     })
-    
+
 
   };
 
@@ -160,7 +160,7 @@ export default function Pastupload(props) {
       <Dialog
         fullWidth={true}
 
-        open={past.isOpen}
+        open={past.isOp}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

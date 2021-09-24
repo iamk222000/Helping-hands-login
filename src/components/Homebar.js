@@ -161,7 +161,7 @@ export default function MenuAppBar(props) {
       </FormGroup>*/}
         <CssBaseline />
         <ElevationScroll {...props}>
-          <AppBar>
+          <AppBar style={{ height: 60, backgroundColor: '#199bf1' }}>
 
             <Toolbar>
               <Typography variant="h6" className={classes.title}>

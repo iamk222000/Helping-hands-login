@@ -6,133 +6,121 @@ import Footer from './Footer';
 
 import {Grid, Box, Card,Paper, CardContent,CardActionArea, Button, Typography,  makeStyles, ListItem, ListItemText} from '@material-ui/core';
 import {
-  
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  Label,
-  AreaChart,Area
+  Label
 } from "recharts";
+
+
 import graph from './circlegraph.png';
-const PaperStyle={ width:1040 }
+const PaperStyle={ width:800 }
 const useStyles = makeStyles({
   root: {
-    marginLeft:'80px',
     // backgroundColor:"#F39C12",
-    
-    
+
+
   },
   card2:{
-      width:200,
-      height:150,
+      // width:150,
+      // height:180,
       // backgroundImage: `url(${graph})`,
       // opacity:'100%',
       // backgroundPosition:'center',
-       backgroundColor:"#F39C12",
+      color: "white",
+       backgroundColor:"#9FE2BF",
+       borderRadius: '25px'
       // backgroundSize:'cover',
       // backgroundRepeat:'no-repeat',
-      marginTop:'0px',
-      marginLeft:'10px'
-      
-      
+
+
       },
       card1:{
-        width:200,
-        height:150,
+      //   width:150,
+      // height:180,
         // backgroundImage: `url(${graph})`,
         // opacity:'30%',
         // backgroundPosition:'center',
-        backgroundColor:"#F1C40F",
+        color: "white",
+        backgroundColor:"#FFBF00",
+        borderRadius: '25px'
         // backgroundSize:'cover',
         // backgroundRepeat:'no-repeat',
-        marginTop:'0px',
-        marginLeft:'10px'
-        
-        
+
         },
         card3:{
-          width:200,
-          height:150,
+      //     width:150,
+      // height:180,
           // backgroundImage: `url(${graph})`,
           // opacity:'30%',
           // backgroundPosition:'center',
-          backgroundColor:"#D35400",
+          color: "white",
+          backgroundColor:"#FF7F50",
+          borderRadius: '25px'
           // backgroundSize:'cover',
           // backgroundRepeat:'no-repeat',
-          marginTop:'0px',
-          marginLeft:'10px'
-          
-          
+
           },
-      
-      grid:{
-          align:'center',
-          
-      },
+          card4:{
+            //     width:150,
+            // height:180,
+                // backgroundImage: `url(${graph})`,
+                // opacity:'30%',
+                // backgroundPosition:'center',
+                color: "white",
+                backgroundColor:"#6495ED",
+                borderRadius: '25px'
+                // backgroundSize:'cover',
+                // backgroundRepeat:'no-repeat',
+
+                },
   }
 );
 
 const data = [
   {
-    name: "Jan",
-    Volunteers: 20
+    name: "Event A",
+    Registered: 12,
+    Participated: 6,
+
   },
   {
-    name: "Feb",
-    Volunteers: 15
-    
+    name: "Event B",
+    Registered: 15,
+    Participated: 9,
+
   },
   {
-    name: "Mar",
-    Volunteers: 16
+    name: "Event C",
+    Registered: 8,
+    Participated: 7,
+
   },
   {
-    name: "Apr",
-    Volunteers: 10
+    name: "Event D",
+    Registered: 12,
+    Participated: 9,
+
   },
   {
-    name: "May",
-    Volunteers: 20
-  },
-  {
-    name: "Jun",
-    Volunteers: 15
-  },
-  {
-    name: "Jul",
-    Volunteers: 17
-  },
-  {
-    name: "Aug",
-    Volunteers: 12
-  },
-  {
-    name: "Sep",
-    Volunteers: 20
-  },
-  {
-    name: "Oct",
-    Volunteers: 23
-  },
-  {
-    name: "Nov",
-    Volunteers: 10
-  },
-  {
-    name: "Dec",
-    Volunteers: 15
+    name: "Event E",
+    Registered: 16,
+    Participated: 13,
+
   }
 ];
 
 export default function Chart() {
   const classes = useStyles();
   const [count,setCount]=useState([])
-    
+
     let future=true
     useEffect(()=>{
-        axios.get('http://localhost:8081/account/leader/userAnalyticsCounts')
+        axios.get('/account/leader/userAnalyticsCounts')
         .then(res=>{
             console.log(res)
             console.log(res.data)
@@ -148,129 +136,132 @@ export default function Chart() {
     <Box m={3}>
         <Homebar/>
         <center>
-    <Grid container  spacing={2} className={classes.grid}>
-    
-        <Grid item xs={12} sm={6} md={3} className={classes.root}>
+    <Grid container spacing={1} direction="row" margin="0px" padding="0px">
+    <Grid item xs={6} margin="0px">
+
+<BarChart
+      width={500}
+      height={350}
+      data={data}
+      marginTop={10}
+      marginLeft={5}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+
+      <YAxis>
+      <Label angle={270} position='left' style={{ textAnchor: 'middle',fontSize: '90%', fill: 'skyblue' }} >
+       Number of Volunteers
+      </Label>
+        </YAxis>
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="Participated" fill="#8884d8" />
+      <Bar dataKey="Registered" fill="#ffc658" />
+    </BarChart>
+
+    </Grid>
+
+    <Grid item xs={6}>
+    <Grid container spacing={2} direction="row" >
+        <Grid item xs={6}>
             <Card  className={classes.card1}>
             <CardActionArea>
                   <CardContent>
-                  
+
                     <ListItem alignItems='center'>
-                      
+
                       <ListItemText>
                       <center>
                       <Typography gutterBottom variant="h6" component="h1">
-                      Volunteers
+                      Total Events
                     </Typography>
                     <Typography gutterBottom variant="h2" component="h3">
-                    {count[1]}
+                    5
                     </Typography>
                     </center>
                       </ListItemText>
                     </ListItem>
-                    
+
                   </CardContent>
                   </CardActionArea>
             </Card>
-            
+
         </Grid>
-   
-        <Grid item xs={12} sm={6} md={3} className={classes.root}>
+        <Grid item xs={6}>
             <Card  className={classes.card2}>
             <CardActionArea>
                   <CardContent>
-                  
+
                     <ListItem alignItems='center'>
-                      
+
                       <ListItemText>
                       <center>
                       <Typography gutterBottom variant="h6" component="h1">
-                      Hours
+                       Hours spent
                     </Typography>
                     <Typography gutterBottom variant="h2" component="h3">
-                    {count[0]}
+                    10
                     </Typography>
                     </center>
                       </ListItemText>
                     </ListItem>
-                    
+
                   </CardContent>
                   </CardActionArea>
             </Card>
-            
+
         </Grid>
-        <Grid item xs={12} sm={6} md={3} className={classes.root}>
+        <Grid item xs={6}>
             <Card  className={classes.card3}>
             <CardActionArea>
                   <CardContent>
-                  
+
                     <ListItem alignItems='center'>
-                      
+
                       <ListItemText>
                       <center>
                       <Typography gutterBottom variant="h6" component="h1">
-                      Events
+                      Volunteers Registered
                     </Typography>
                     <Typography gutterBottom variant="h2" component="h3">
-                    {count[2]}
+                    63
                     </Typography>
                     </center>
                       </ListItemText>
                     </ListItem>
-                    
+
                   </CardContent>
                   </CardActionArea>
             </Card>
-            
+
         </Grid>
+        <Grid item xs={6}>
+            <Card  className={classes.card4}>
+            <CardActionArea>
+                  <CardContent>
 
-    <Grid item xs={12} sm={12} md={12}>
-    <Paper style={PaperStyle} >
-    <center>
-    <Typography variant="h5">User Analytics</Typography>
-    </center>
-    <AreaChart
-      width={1000}
-      height={300}
-      data={data}
-      
-      margin={{
-        top: 5,
-        right: 10,
-        left: 50,
-        bottom: 5
-        
-      }}
-    >
-    
-      <CartesianGrid horizontal="" vertical="" />
-      <XAxis dataKey="name" tick={{ fill: 'red' }} stroke="red"/>
-      
-      <YAxis type="number" domain={[0, 'auto']} tick={{ fill: 'red' }} stroke="red" tickCount={5}>
-      
-    <Label angle={270} position='left' style={{ textAnchor: 'middle',fontSize: '100%', fill: 'red' }} >
-       Number of Volunteers
-    </Label>
-    
-</YAxis>
+                    <ListItem alignItems='center'>
 
-      <Tooltip cursor={false}/>
-      <Legend />
-      
-      <Area
-        type="monotone"
-        dataKey="Volunteers"
-        stroke="#8884d8"
-        fill="#8884d8"
-        activeDot={{ r: 8 }}
-      />
-      
-    </AreaChart>
-   
-   
-    </Paper>
-                  
+                      <ListItemText>
+                      <center>
+                      <Typography gutterBottom variant="h6" component="h1">
+                      Volunteers Participated
+                    </Typography>
+                    <Typography gutterBottom variant="h2" component="h3">
+                    44
+                    </Typography>
+                    </center>
+                      </ListItemText>
+                    </ListItem>
+
+                  </CardContent>
+                  </CardActionArea>
+            </Card>
     </Grid>
+    </Grid>
+    </Grid>
+
     </Grid>
     <Footer/>
     </center>

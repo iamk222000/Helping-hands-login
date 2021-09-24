@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 import 'date-fns';
 //import DateFnsUtils from '@date-io/date-fns';
-import { Grid, Paper, TextField, Button, Typography } from '@material-ui/core';
+import { Grid, Paper, TextField, Button,Typography } from '@material-ui/core';
 import imgl from './logo.jpg';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -18,11 +18,11 @@ import Footer from "./Footer";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
+import '../App.css';
 function profileRegister(myprofile, action) {
     const dataProfile=JSON.parse(localStorage.getItem("myProfile"))
     const info=JSON.parse(localStorage.getItem("myInfo"))
-    
+
     switch (action.type) {
         case 'field': {
             return {
@@ -47,17 +47,17 @@ function profileRegister(myprofile, action) {
         location:dataProfile.location,
         gender:dataProfile.gender,
         address:dataProfile.address,
-          
-          
+
+
         };
       }
       case 'error': {
         return {
           ...myprofile,
-          
+
         };
       }
-      
+
       default:
         return myprofile;
     }
@@ -70,10 +70,11 @@ function profileRegister(myprofile, action) {
   ))
 
 const Profile=()=>{
-    const paperStyle={padding :'20px 20px',width:800, height:500, margin:"0px auto"}
+    const paperStyle={padding :'20px 20px',width:800, height:550, margin:"30px auto"}
     const headStyle={margin:0,fontFamily:'san-serif',color:'blue'}
     const btnstyle = { margin:'10px auto',display:'flex',justifyContent:'center',alignItems:'center', width:'30%',height:'20%'}
     const imgstyle={height:100,width:180}
+    const gridStyle={backgroundColor: '#Faf0e6',height:630 ,margin:"0px 0px",padding :'0px 0px'}
     const dataInfo=JSON.parse(localStorage.getItem("myInfo"))
     const classes=useStyles();
     const initialValues = {
@@ -87,7 +88,7 @@ const Profile=()=>{
         gender:'',
         address:'',
     }
-   
+
     // const [dob,setDob]=useState(null)
     // const handleDateChange=(date)=>{
     //     setDob(moment(date).format("YYYY-MM-DD"))
@@ -95,15 +96,15 @@ const Profile=()=>{
  //const[gender,setGender]=useState('')
     const data=JSON.parse(localStorage.getItem("myInfo"))
     const id=data.id
-    
+
     const [myprofile, setMyprofile] = useReducer(profileRegister, initialValues);
     const { email,mobile_number,about,location,address,gender,dob } = myprofile;
     const [success,setSuccess]=useState(false);
     const [mesg,setMesg]=useState('');
     const [open, setOpen] =useState(false);
     useEffect(()=>{
-        
-        axios.get(`http://localhost:8081/account/getProfile/${id}`)
+
+        axios.get(`/account/getProfile/${id}`)
         .then(res=>{
             console.log(res)
             const pro=res.data
@@ -116,12 +117,12 @@ const Profile=()=>{
 
         })
     },[id])
-    
+
     let history = useHistory();
     const onSubmit = async (e) => {
         e.preventDefault();
         const user = {
-            
+
             email,
             mobile_number,
             dob,
@@ -130,12 +131,12 @@ const Profile=()=>{
             location,
             address
         };
-        
+
         console.log(user)
-        axios.post("http://localhost:8081/account/saveProfile", user)
+        axios.post("/account/saveProfile", user)
         .then((response) => {
             var res = response.status;
-           
+
             console.log(response.status)
             if (res === 200) {
                 // alert("Profile Updated")
@@ -153,7 +154,7 @@ const Profile=()=>{
                     setOpen(true);
                     setMesg(error.response.data.message);
 
-                
+
             }
             else{
                 // alert("Something went wrong")
@@ -161,7 +162,7 @@ const Profile=()=>{
                     setMesg("Something went wrong");}
             console.log(error)
         });
-        
+
     }
     const handleClose = (event, reason) => {
       if(success)
@@ -171,100 +172,90 @@ const Profile=()=>{
       }
       else{
           setOpen(false);
-          
+
       }
   };
-        
+
         const validationSchema = Yup.object().shape({
-            
-             mobile_number: Yup.string() 
+
+             mobile_number: Yup.string()
                //.matches(/^\+(?:[0-9] ?){6,14}[0-9]$/,"Enter a valid number").required("Required"),
-            //.matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-            .matches(/^((\\([7-9]{1}\\)[ \\-]*)|([0-9]{3})[ \\-]*)*?[0-9]{3}?[ \\-]*[0-9]{3}?$/
-           
+           //.matches(/^((\\+[1-9]{1,4}[ \\-])|(\\([0-9]{2,3}\\)[ \\-])|([0-9]{2,4})[ \\-])?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+               .matches(/^[7-9]\d{9}$/
               ,"Enter valid phone number") .required("Required"),
              about: Yup.string().required("Required"),
              dob: Yup.date().required("Required"),
              location: Yup.string().required("Required"),
              address: Yup.string().required("Required"),
-           
+
                 })
-        
+
                 const info1=JSON.parse(localStorage.getItem("myInfo"))
     return(
-        <Grid>
+        <Grid style={gridStyle}>
         <Homebar/>
+
         <Paper elevation={20} style={paperStyle}>
             <Grid align='center'>
             {/* <div>
             <img src={imgl} style={imgstyle} alt=""/>
-            
+
             </div> */}
-            <center> 
-       
-            <Typography variant='h5' style={{color:"#2E2EFE"}} >Profile</Typography>
-                   </center>
+                <Typography variant='h6' color="textSecondary" align="center">Profile</Typography>
             </Grid>
-            <br></br>
-            <br></br>
+            <br/>
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
                 {(props) => (
                     <Form>
                     <div class="container">
                    <Grid container spacing={2}>
                         <Grid item xs={6}>
-                                <Field as={TextField}  label='First Name' name="fname" disabled value={info1.firstname}  required/>
+                                <Field as={TextField} label='First Name' name="fname" disabled value={info1.firstname}  required/>
                         </Grid>
                         <Grid item xs={6}>
-                            <Field as={TextField}  label='Last Name' name="lname" disabled value={info1.lastname}  required />
+                            <Field as={TextField} label='Last Name' name="lname" disabled value={info1.lastname}  required />
                         </Grid>
-                    
+
                         <Grid item xs={6}>
                             <Field as={TextField} label='Email Id' name="email" disabled value={info1.email}
-                            
+
                               required/>
                         </Grid>
                         <Grid item xs={6}>
                             <Field as={TextField} label='Mobile Number' name="mobile_number" required  value={mobile_number}
                             error={props.errors.mobile_number && props.touched.mobile_number} onInput={props.handleChange}
-                            pattern="[789]{1}[0-9]{9}" 
+                            pattern="[789]{1}[0-9]{9}"
                             onChange={e=>
                               setMyprofile({
                                   type: 'field',
                                   fieldName: 'mobile_number',
                                   payload: e.currentTarget.value,
                                 })
-                            
-                              } 
+
+                              }
                               helperText={<ErrorMessage name="mobile_number" />}/>
                         </Grid>
-                        
-                        
+
+
+
                         <Grid item xs={6}>
-                        <Field as={TextField}  label="Date of Birth" name='dob' value={dob}
-                             type="date" format="yyyy/MM/dd"
-                            // defaultValue="2021-08-24T10:30" min="2021-08-24"
-                            InputLabelProps={{
-                              shrink: true,
-                          }}
-                            required placeholder="Date of Birth"
+                        <DatePickerComponent name="dob" value={dob} format="yyyy/MM/dd"
+                        placeholder="Date of Birth" width="180px" required
                         error={props.errors.dob && props.touched.dob}  onInput={props.handleChange}
                         onChange={(e) =>
                           {console.log(e.target.value)
                           setMyprofile({
                               type: 'field',
                               fieldName: 'dob',
-                              
+
                               payload: e.target.value,
                             })
-                         } }
-                            
+                         } }>
+                        </DatePickerComponent>
 
-                             />
-                    </Grid>
-                        
+                        </Grid>
                         <Grid item xs={6}>
-                            <Field as={TextField} label='About volunteer'  name="about" required value={about} 
+                            <Field as={TextField} label='About volunteer'  name="about" required value={about}
                             error={props.errors.about && props.touched.about}  onInput={props.handleChange}
                             onChange={(e) =>
                               setMyprofile({
@@ -275,7 +266,7 @@ const Profile=()=>{
                               } helperText={<ErrorMessage name="about" />}/>
                         </Grid>
                         <Grid item xs={6}>
-                            <Field as={TextField} label='Location' name="location" required value={location} 
+                            <Field as={TextField} label='Location' name="location" required value={location}
                             error={props.errors.location && props.touched.location}   onInput={props.handleChange}
                             onChange={(e) =>
                               setMyprofile({
@@ -287,8 +278,8 @@ const Profile=()=>{
                         </Grid>
                         <Grid item xs={6}>
                             <label>Gender</label><br></br>
-                            <input type="radio" label="Male"checked={gender==="Male"} value="Male"  name="gender" 
-                            
+                            <input type="radio" label="Male"checked={gender==="Male"} value="Male"  name="gender"
+
                             onChange={(e) =>
                               setMyprofile({
                                 type: 'field',
@@ -296,7 +287,7 @@ const Profile=()=>{
                                 payload: e.currentTarget.value,
                               })
                             } />Male
-                            <input type="radio" label="Female"checked={gender==="Female"} value="Female" value="Female" 
+                            <input type="radio" label="Female"checked={gender==="Female"} value="Female" value="Female"
                             onChange={(e) =>
                               setMyprofile({
                                 type: 'field',
@@ -316,21 +307,20 @@ const Profile=()=>{
                                 })
                               } helperText={<ErrorMessage name="address" />}/>
                         </Grid>
-                        
-                        
-                        
+
+
+
                         </Grid>
                         </div>
                         <Button type='submit' color='primary' variant="contained" onClick={onSubmit}
                             style={btnstyle} disabled={props.isSubmitting}
                             fullWidth>{props.isSubmitting ? "Loading" : "Submit"}</Button>
-                        
+
                     </Form>
                 )}
             </Formik>
-           
+
         </Paper>
-        <Footer/>
         <Snackbar
         className={classes.root}
         anchorOrigin={{
@@ -343,14 +333,15 @@ const Profile=()=>{
         message={mesg}
         action={
           <Fragment>
-           
+
             <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
               <CloseIcon fontSize="small" />
             </IconButton>
           </Fragment>
         }
-        />    
-        
+        />
+
+        <Footer/>
     </Grid>
 )
 
