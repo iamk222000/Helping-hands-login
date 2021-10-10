@@ -36,16 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
     }
 }));
-function createData(name, venue, date,time) {
-    return { name, venue, date,time };
-  }
-  const rows = [
-    createData('Animal Shelter','Mumbai','21st August 2021','6:30pm'),
-    createData('Green Earth','Chennai','21st August 2021','6:30pm'),
-    createData('Oldage Home','Mumbai','21st August 2021','6:30pm'),
-    createData('Fund Raising','Mumbai','21st August 2021','6:30pm'),
-
-  ];
 
 
 
@@ -71,14 +61,7 @@ export default function ButtonAppBar() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    
     return (
         <Paper className={classes.root} variant="outlined">
         <center>
