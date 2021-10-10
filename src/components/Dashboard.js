@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Grid, Typography,Button,Paper,Tooltip,Avatar } from '@material-ui/core';
+import React from 'react';
+import { Grid, Typography,Button,Paper,Avatar } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { deepPurple } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,16 +21,7 @@ import Table1 from"./Table1";
 import Table2 from"./Table2";
 import Table3 from"./Table3";
 import EventsReg from "./EventsReg";
-import {
 
-    XAxis,
-    YAxis,
-    CartesianGrid,
-
-    Legend,
-    Label,
-    LineChart,Line
-  } from "recharts";
 
 
 const imgstyle = {
@@ -39,10 +30,7 @@ const imgstyle = {
   const useStyles = makeStyles((theme) => ({
     root: {
       width:"100%",
-    //   backgroundColor:"#48C9B0",
-    //   backgroundColor:"#F5B041",
-    //   backgroundColor:"#CC99CC",
-    //   backgroundColor:"#FF6699",
+    
       height:"auto",
       paddingTop:"5px"
 
@@ -87,32 +75,13 @@ const imgstyle = {
         const id=dataInfo.id
         const [count,setCount]=useState(0);
 
-       useEffect(()=>{
-
-        {
-
-        axios.get(`/account/events/getEventParticipated/${id}`)
-       .then((response) => {
-         console.log(response.data.events);
-          var ct = response.data.eventsCount;
-          setCount(ct);
-        })
-      };
-    })
+       
 
 
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-
-
-    const handleClose = () => {
-      setAnchorEl(null);};
+    
 
 
       let history = useHistory();
@@ -143,8 +112,7 @@ const imgstyle = {
                             <Typography gutterBottom variant="h6" color="secondary" align="center">
                                 Opportunities Registered
                             </Typography>
-                            {/*<Tooltip title="Count of Opportunities">
-    <Avatar className={classes.purple}>{count}</Avatar></Tooltip>*/}
+                            
     <br></br>
                             <Table2/>
 
