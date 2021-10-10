@@ -167,16 +167,16 @@ const sentEmail = () => {
       })
 
       })
-    // alert("senting mail")
+    
   };
 
 
-  const handleDialogue = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+//   const handleDialogue = () => {
+//     setOpen(true);
+//   };
+//   const handleClose = () => {
+//     setOpen(false);
+//   };
   const pastDialogue = () => {
     setPast({
       isOp: true
