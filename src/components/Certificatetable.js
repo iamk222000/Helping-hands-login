@@ -43,41 +43,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left',
   },
 }));
-function createData(name,venue,date,send) {
-    return {name,venue,date,send };
-  }
-
-  const rows = [
-    createData('Environment Protection','Mumbai','21st August 2021','send'),
-    createData('Helping the orphans','Chennai','21st August 2021','send'),
-    createData('Protecing Earth','Thane','21st August 2021','send'),
-    createData('Food Campaign','Mumbai','21st August 2021','send'),
-    createData('Raise for Poor','Pune','21st August 2021','send'),
-
-  ];
 
 
 
-function ElevationScroll(props) {
-  const { children, window } = props;
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-    target: window ? window() : undefined,
-  });
-
-  return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0,
-  });
-}
-
-ElevationScroll.propTypes = {
-  children: PropTypes.element.isRequired,
-  window: PropTypes.func,
-};
 
 
-	export default function ButtonAppBar() {
+
+export default function ButtonAppBar() {
 
   const [auth] = React.useState(true);
 
@@ -110,7 +82,7 @@ ElevationScroll.propTypes = {
   const classes = useStyles();
 
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  
   const [open, setOpen] = React.useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
